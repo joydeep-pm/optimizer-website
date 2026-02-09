@@ -7,10 +7,11 @@ export default function InfoCard({
   badge,
   badgeTone = "default",
   className = "",
+  reveal = true,
 }) {
   return (
     <article
-      className={`group reveal-up rounded-2xl border border-white/12 bg-black/45 p-4 backdrop-blur-xl transition-all duration-300 hover-glow ${className}`}
+      className={`group ${reveal ? "reveal-up" : ""} rounded-2xl border border-white/12 bg-black/45 p-4 backdrop-blur-xl transition-all duration-300 hover-glow ${className}`}
     >
       <div className="flex items-start justify-between gap-3">
         <h3 className="display-font text-xl font-bold tracking-tight text-white">{title}</h3>

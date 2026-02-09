@@ -1,4 +1,5 @@
 import FlowMiniMap from "../ui/FlowMiniMap";
+import FadeIn from "../ui/FadeIn";
 import InfoCard from "../ui/InfoCard";
 import { channels, workflowCards } from "../../content/siteContent";
 
@@ -23,16 +24,18 @@ export default function HowItWorksSection() {
         </div>
 
         <div className="stagger-grid mt-7 grid gap-4 md:grid-cols-3">
-          {workflowCards.map((item) => (
-            <InfoCard
-              key={item.step}
-              title={item.title}
-              body={item.line}
-              badge={item.step}
-              badgeTone="info"
-              className="relative"
-              visual={<FlowMiniMap nodes={item.diagramNodes} animated />}
-            />
+          {workflowCards.map((item, index) => (
+            <FadeIn key={item.step} delay={index * 0.2}>
+              <InfoCard
+                title={item.title}
+                body={item.line}
+                badge={item.step}
+                badgeTone="info"
+                className="relative"
+                reveal={false}
+                visual={<FlowMiniMap nodes={item.diagramNodes} animated />}
+              />
+            </FadeIn>
           ))}
         </div>
       </div>

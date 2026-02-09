@@ -1,6 +1,6 @@
 import GlowIconTile from "../ui/GlowIconTile";
-import InfoCard from "../ui/InfoCard";
 import SignalBadge from "../ui/SignalBadge";
+import SpotlightCard from "../ui/SpotlightCard";
 import { featureCards } from "../../content/siteContent";
 
 function toneForIndex(index) {
@@ -20,10 +20,12 @@ export default function FeaturesSection() {
 
         <div className="stagger-grid mt-8 grid auto-rows-[1fr] gap-4 md:grid-cols-6">
           {featureCards.map((feature, index) => (
-            <InfoCard
+            <SpotlightCard
               key={feature.title}
               title={feature.title}
               body={feature.microCopy}
+              badge={feature.statusTag}
+              badgeTone={index % 2 === 0 ? "positive" : "info"}
               className={
                 index === 0
                   ? "md:col-span-3"
@@ -35,15 +37,22 @@ export default function FeaturesSection() {
                         ? "md:col-span-2"
                         : index === 4
                           ? "md:col-span-2"
-                          : "md:col-span-6"
+                        : "md:col-span-6"
               }
-              visual={
+            >
+              <div className="flex items-center justify-between gap-3">
+                <GlowIconTile iconKey={feature.iconKey} tone={toneForIndex(index)} />
                 <div className="flex items-center justify-between gap-3">
-                  <GlowIconTile iconKey={feature.iconKey} tone={toneForIndex(index)} />
-                  <SignalBadge label={feature.statusTag} tone={index % 2 === 0 ? "positive" : "info"} />
+                  <span className="text-xs uppercase tracking-[0.12em] text-white/58">
+                    signal
+                  </span>
+                  <SignalBadge
+                    label={index % 3 === 0 ? "Active" : index % 3 === 1 ? "Adaptive" : "Ready"}
+                    tone={index % 2 === 0 ? "info" : "amber"}
+                  />
                 </div>
-              }
-            />
+              </div>
+            </SpotlightCard>
           ))}
         </div>
       </div>
