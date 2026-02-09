@@ -30,6 +30,21 @@ body {
 .section-shell {
   position: relative;
   overflow: hidden;
+  isolation: isolate;
+}
+
+.section-shell::before {
+  content: "";
+  position: absolute;
+  inset: -12% -6%;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(circle at 12% 18%, rgba(56, 189, 248, 0.16), transparent 40%),
+    radial-gradient(circle at 90% 30%, rgba(244, 114, 182, 0.14), transparent 42%),
+    radial-gradient(circle at 52% 100%, rgba(34, 211, 238, 0.1), transparent 45%);
+  filter: blur(16px);
+  opacity: 0.9;
 }
 
 .section-shell::after {
@@ -40,18 +55,26 @@ body {
   border-radius: 1.5rem;
   background: radial-gradient(circle at 20% 0%, rgba(94, 234, 212, 0.14), transparent 34%),
     radial-gradient(circle at 80% 20%, rgba(244, 114, 182, 0.12), transparent 34%);
-  opacity: 0.58;
+  opacity: 0.78;
+}
+
+.section-shell > * {
+  position: relative;
+  z-index: 1;
 }
 
 .hover-glow {
   transform: translateY(0) scale(1);
-  transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
+  transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease,
+    background-color 220ms ease;
 }
 
 .hover-glow:hover {
-  transform: translateY(-2px) scale(1.006);
-  border-color: rgba(255, 255, 255, 0.2);
-  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.28), 0 0 0 1px rgba(103, 232, 249, 0.1) inset;
+  transform: translateY(-4px) scale(1.012);
+  border-color: rgba(125, 211, 252, 0.44);
+  background-color: rgba(8, 13, 24, 0.72);
+  box-shadow: 0 20px 42px rgba(2, 8, 23, 0.5), 0 0 0 1px rgba(103, 232, 249, 0.2) inset,
+    0 0 35px rgba(56, 189, 248, 0.16);
 }
 
 .reveal-up {
@@ -66,8 +89,8 @@ body {
   top: 0;
   bottom: 0;
   width: 40%;
-  background: linear-gradient(90deg, transparent, rgba(56, 189, 248, 0.26), transparent);
-  animation: flow-trace 2.6s linear infinite;
+  background: linear-gradient(90deg, transparent, rgba(56, 189, 248, 0.42), transparent);
+  animation: flow-trace 2.2s linear infinite;
 }
 
 .stagger-grid > *:nth-child(1) {

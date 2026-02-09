@@ -37,17 +37,17 @@ export default function SpotlightCard({
 
   const spotlightBg = useMotionTemplate`
     radial-gradient(
-      260px circle at ${mouseX}px ${mouseY}px,
-      rgba(56, 189, 248, 0.16),
-      rgba(129, 140, 248, 0.08) 35%,
+      320px circle at ${mouseX}px ${mouseY}px,
+      rgba(56, 189, 248, 0.26),
+      rgba(129, 140, 248, 0.14) 35%,
       transparent 70%
     )
   `;
 
   const spotlightBorder = useMotionTemplate`
     radial-gradient(
-      220px circle at ${mouseX}px ${mouseY}px,
-      rgba(255, 255, 255, 0.45),
+      280px circle at ${mouseX}px ${mouseY}px,
+      rgba(255, 255, 255, 0.62),
       transparent 65%
     )
   `;
@@ -56,10 +56,21 @@ export default function SpotlightCard({
     <motion.article
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      whileHover={{ y: -2, scale: 1.006 }}
+      whileHover={{ y: -5, scale: 1.014 }}
       transition={{ duration: 0.22, ease: "easeOut" }}
       className={`group relative overflow-hidden rounded-2xl border border-white/12 bg-black/45 p-4 backdrop-blur-xl ${className}`}
     >
+      <motion.div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 rounded-2xl"
+        animate={{ opacity: [0.24, 0.42, 0.24] }}
+        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+        style={{
+          background:
+            "radial-gradient(circle at 20% 0%, rgba(56,189,248,0.18), transparent 40%), radial-gradient(circle at 90% 90%, rgba(236,72,153,0.12), transparent 44%)",
+        }}
+      />
+
       <motion.div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 rounded-2xl"
@@ -85,6 +96,13 @@ export default function SpotlightCard({
           backgroundImage:
             "linear-gradient(115deg, rgba(255,255,255,0.06) 0%, transparent 35%, transparent 65%, rgba(255,255,255,0.05) 100%)",
         }}
+      />
+
+      <motion.div
+        aria-hidden="true"
+        className="pointer-events-none absolute -left-1/3 top-0 h-full w-1/3 bg-gradient-to-r from-transparent via-cyan-300/25 to-transparent"
+        animate={{ x: ["0%", "360%"] }}
+        transition={{ duration: 3.2, repeat: Infinity, ease: "linear" }}
       />
 
       <div className="relative z-[1]">

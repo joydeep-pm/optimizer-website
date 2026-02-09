@@ -42,6 +42,13 @@ export default function ValueSection() {
           selects stronger routes.
         </p>
 
+        <div className="mb-5 rounded-2xl border border-cyan-300/20 bg-cyan-300/5 px-4 py-3">
+          <div className="flex items-center gap-2 text-xs uppercase tracking-[0.14em] text-cyan-100/85">
+            <span className="h-2 w-2 rounded-full bg-cyan-300 shadow-[0_0_14px_rgba(34,211,238,0.85)]" />
+            Live decision surface
+          </div>
+        </div>
+
         <div className="stagger-grid mt-8 grid grid-cols-1 gap-4 lg:grid-cols-12">
           {valueCards.map((item, index) => (
             <InfoCard
@@ -50,7 +57,7 @@ export default function ValueSection() {
               body={item.body}
               badge={index === 0 ? "Gap" : index === 1 ? "Fit" : "Logic"}
               badgeTone={index === 0 ? "amber" : index === 1 ? "info" : "positive"}
-              className={index === 0 ? "lg:col-span-5" : index === 1 ? "lg:col-span-4" : "lg:col-span-3"}
+              className={index === 0 ? "lg:col-span-5 min-h-[210px]" : index === 1 ? "lg:col-span-4 min-h-[210px]" : "lg:col-span-3 min-h-[210px]"}
               visual={<ValueVisual visualType={item.visualType} chipLabels={item.chipLabels} />}
             />
           ))}

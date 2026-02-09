@@ -31,7 +31,7 @@ export default function HowItWorksSection() {
                 body={item.line}
                 badge={item.step}
                 badgeTone="info"
-                className="relative"
+                className="relative min-h-[220px]"
                 reveal={false}
                 visual={<FlowMiniMap nodes={item.diagramNodes} animated />}
               />

@@ -17,6 +17,10 @@ export default function FeaturesSection() {
         <h2 className="display-font mt-4 text-3xl font-bold tracking-tight md:text-5xl">
           Card-first capability tiles with high-signal visual cues
         </h2>
+        <p className="mt-3 max-w-3xl text-sm text-white/70 md:text-base">
+          Each tile reacts to cursor and carries persistent ambient motion so the section feels
+          alive even before interaction.
+        </p>
 
         <div className="stagger-grid mt-8 grid auto-rows-[1fr] gap-4 md:grid-cols-6">
           {featureCards.map((feature, index) => (
@@ -37,7 +41,7 @@ export default function FeaturesSection() {
                         ? "md:col-span-2"
                         : index === 4
                           ? "md:col-span-2"
-                        : "md:col-span-6"
+                        : "md:col-span-6 min-h-[200px]"
               }
             >
               <div className="flex items-center justify-between gap-3">
