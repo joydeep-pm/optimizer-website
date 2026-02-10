@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef } from "react";
-import { Environment, RoundedBox } from "@react-three/drei";
+import { Environment } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import { carouselCards } from "../../content/siteContent";
@@ -212,21 +212,22 @@ export default function Experience({ progress }: ExperienceProps) {
           const texture = textures[index] ?? undefined;
 
           return (
-            <RoundedBox
+            <mesh
               key={card.id}
               ref={ref}
-              args={[1.45, 0.92, 0.055]}
-              radius={0.04}
               position={initPos(index)}
               rotation={[0, index * ANGLE_STEP, 0]}
+              castShadow
+              receiveShadow
             >
+              <boxGeometry args={[1.45, 0.92, 0.055]} />
               <meshPhysicalMaterial attach="material-0" color={card.edgeColor} metalness={0.85} roughness={0.28} />
               <meshPhysicalMaterial attach="material-1" color={card.edgeColor} metalness={0.85} roughness={0.28} />
               <meshPhysicalMaterial attach="material-2" color={card.edgeColor} metalness={0.85} roughness={0.28} />
               <meshPhysicalMaterial attach="material-3" color={card.edgeColor} metalness={0.85} roughness={0.28} />
               <meshPhysicalMaterial attach="material-4" map={texture} {...faceMaterialProps} />
               <meshPhysicalMaterial attach="material-5" map={texture} {...faceMaterialProps} />
-            </RoundedBox>
+            </mesh>
           );
         })}
       </group>
