@@ -24,7 +24,7 @@ export default function HowItWorksSection() {
       <div className="mx-auto grid max-w-[1240px] grid-cols-1 gap-10 px-4 md:px-8 lg:grid-cols-2">
         <div className="pr-0 lg:pr-10">
           <motion.header
-            className="pt-14"
+            className="pt-10"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.4 }}
@@ -33,14 +33,14 @@ export default function HowItWorksSection() {
             <p className="text-left text-xs uppercase tracking-[0.2em] text-white/55">
               {howItWorksSection.eyebrow}
             </p>
-            <h2 className="display-font mt-4 max-w-3xl text-left text-4xl font-bold tracking-tight text-white md:text-6xl">
+            <h2 className="display-font mt-3 max-w-3xl text-left text-4xl font-bold tracking-tight text-white md:text-6xl">
               {howItWorksSection.title}
             </h2>
-            <p className="mt-4 max-w-2xl text-left text-base leading-relaxed text-white/74">
+            <p className="mt-3 max-w-2xl text-left text-base leading-relaxed text-white/74">
               {howItWorksSection.body}
             </p>
 
-            <div className="mt-5 flex flex-wrap gap-2">
+            <div className="mt-4 flex flex-wrap gap-2">
               {channels.map((channel) => (
                 <span
                   key={channel}
@@ -52,9 +52,16 @@ export default function HowItWorksSection() {
             </div>
           </motion.header>
 
-          <div className="mt-6">
+          <div className="mt-3">
             {howItWorksRail.map((step, index) => (
-              <div key={step.step} className={index === 0 ? "flex min-h-[72vh] items-center" : "flex min-h-[66vh] items-center"}>
+              <div
+                key={step.step}
+                className={
+                  index === 0
+                    ? "flex min-h-[60vh] items-center md:min-h-[56vh]"
+                    : "flex min-h-[56vh] items-center md:min-h-[52vh]"
+                }
+              >
                 <motion.article
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
