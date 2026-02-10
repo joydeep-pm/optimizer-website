@@ -1,16 +1,63 @@
-# React + Vite
+# Wealth Hero — Card Optimizer Landing Page
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A premium landing page for **Card Optimizer**, a credit card co-pilot for premium users in India. The app helps users route spend through the right card, channel, and merchant path to maximize reward yield across an 8-card portfolio.
 
-Currently, two official plugins are available:
+## Live Sections
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+| Section | Description |
+|---|---|
+| **Hero** | Headline, CTA, and animated background |
+| **Value Proposition** | Decision canvas with merchant-aware signals, channel-layered logic, and explainable output |
+| **How It Works** | Scroll-linked 3D card carousel (HSBC Premier, ICICI Emeralde, Axis Atlas) with step-by-step walkthrough |
+| **Features** | Spotlight cards for key product capabilities |
+| **Security** | Trust and data-safety messaging |
+| **FAQ** | Accordion-style frequently asked questions |
 
-## React Compiler
+## Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Framework:** React 19 + Vite 8 (beta)
+- **Styling:** Tailwind CSS 4
+- **Animation:** Framer Motion 12
+- **3D:** Three.js r182, @react-three/fiber 9, @react-three/drei 10
+- **Smooth Scroll:** Lenis
 
-## Expanding the ESLint configuration
+## Project Structure
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```
+src/
+├── App.jsx                  # Root layout with section composition
+├── main.jsx                 # Entry point with Lenis smooth scroll
+├── content/
+│   └── siteContent.js       # All copy, card data, and section content
+├── components/
+│   ├── sections/            # Page sections (Hero, Value, HowItWorks, etc.)
+│   ├── three/
+│   │   └── Experience.tsx   # 3D card carousel scene
+│   └── ui/                  # Reusable UI components (Accordion, FadeIn, SpotlightCard, etc.)
+public/
+└── cards/                   # Card texture images for 3D carousel
+```
+
+## Getting Started
+
+```bash
+# Install dependencies
+npm install
+
+# Start dev server
+npm run dev
+
+# Build for production
+npm run build
+
+# Preview production build
+npm run preview
+```
+
+## Key Features
+
+- **Scroll-driven 3D carousel** — Three credit cards rotate on scroll using Framer Motion scroll progress and Three.js group transforms
+- **Canvas-based card textures** — High-res card images rendered as `MeshPhysicalMaterial` textures with metallic edges
+- **Section transitions** — Gradient fades between sections for seamless visual flow
+- **Responsive design** — Tailwind-based layout adapting across screen sizes
+- **Smooth scrolling** — Lenis integration for buttery scroll experience

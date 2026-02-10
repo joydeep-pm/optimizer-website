@@ -103,6 +103,54 @@ function buildNoiseNormalMap(size = 256) {
   return tex;
 }
 
+function createRoundedCardGeometry(
+  width: number,
+  height: number,
+  depth: number,
+  radius: number,
+) {
+  const hw = width / 2;
+  const hh = height / 2;
+
+  const shape = new THREE.Shape();
+  shape.moveTo(-hw + radius, -hh);
+  shape.lineTo(hw - radius, -hh);
+  shape.quadraticCurveTo(hw, -hh, hw, -hh + radius);
+  shape.lineTo(hw, hh - radius);
+  shape.quadraticCurveTo(hw, hh, hw - radius, hh);
+  shape.lineTo(-hw + radius, hh);
+  shape.quadraticCurveTo(-hw, hh, -hw, hh - radius);
+  shape.lineTo(-hw, -hh + radius);
+  shape.quadraticCurveTo(-hw, -hh, -hw + radius, -hh);
+
+  const geometry = new THREE.ExtrudeGeometry(shape, {
+    depth,
+    bevelEnabled: false,
+    steps: 1,
+    curveSegments: 8,
+  });
+
+  // Center on Z axis (extrude goes 0→depth, shift to -depth/2→+depth/2)
+  geometry.translate(0, 0, -depth / 2);
+
+  // Remap face UVs (materialIndex 0) to normalized 0-1 range
+  const uv = geometry.getAttribute("uv") as THREE.BufferAttribute;
+  const pos = geometry.getAttribute("position") as THREE.BufferAttribute;
+  const idx = geometry.getIndex();
+
+  for (const group of geometry.groups) {
+    if (group.materialIndex === 0) {
+      for (let i = group.start; i < group.start + group.count; i++) {
+        const vi = idx ? idx.getX(i) : i;
+        uv.setXY(vi, (pos.getX(vi) + hw) / width, (pos.getY(vi) + hh) / height);
+      }
+    }
+  }
+  uv.needsUpdate = true;
+
+  return geometry;
+}
+
 const CAROUSEL_RADIUS = 0.95;
 const ANGLE_STEP = (2 * Math.PI) / 3; // 120 degrees
 
@@ -114,9 +162,9 @@ export default function Experience({ progress }: ExperienceProps) {
 
   const cards = useMemo(() => {
     const defaults = [
-      { id: "hsbc", name: "HSBC Premier", textureUrl: "", edgeColor: "#cfd4dd" },
-      { id: "icici", name: "ICICI Emeralde", textureUrl: "", edgeColor: "#c8a258" },
-      { id: "axis", name: "Axis Atlas", textureUrl: "", edgeColor: "#949aa4" },
+      { id: "hsbc", name: "HSBC Premier", textureUrl: "", edgeColor: "#1a1f3a" },
+      { id: "icici", name: "ICICI Emeralde", textureUrl: "", edgeColor: "#1a3a3a" },
+      { id: "axis", name: "Axis Atlas", textureUrl: "", edgeColor: "#111111" },
     ];
 
     const merged = defaults.map((item, index) => ({
@@ -141,12 +189,19 @@ export default function Experience({ progress }: ExperienceProps) {
     return buildNoiseNormalMap(256);
   }, []);
 
+  // Rounded card: 1.45 × 0.92, 0.014 thick, ~3mm radius at scale
+  const cardGeometry = useMemo(
+    () => createRoundedCardGeometry(1.45, 0.92, 0.014, 0.05),
+    [],
+  );
+
   useEffect(() => {
     return () => {
       textures.forEach((tex) => tex?.dispose());
       noiseNormalMap?.dispose();
+      cardGeometry.dispose();
     };
-  }, [textures, noiseNormalMap]);
+  }, [textures, noiseNormalMap, cardGeometry]);
 
   useFrame((state, delta) => {
     const t = clamp01(progress);
@@ -215,18 +270,16 @@ export default function Experience({ progress }: ExperienceProps) {
             <mesh
               key={card.id}
               ref={ref}
+              geometry={cardGeometry}
               position={initPos(index)}
               rotation={[0, index * ANGLE_STEP, 0]}
               castShadow
               receiveShadow
             >
-              <boxGeometry args={[1.45, 0.92, 0.055]} />
-              <meshPhysicalMaterial attach="material-0" color={card.edgeColor} metalness={0.85} roughness={0.28} />
+              {/* material-0 = front & back faces (ExtrudeGeometry group 0) */}
+              <meshPhysicalMaterial attach="material-0" map={texture} {...faceMaterialProps} />
+              {/* material-1 = rounded edge strip (ExtrudeGeometry group 1) */}
               <meshPhysicalMaterial attach="material-1" color={card.edgeColor} metalness={0.85} roughness={0.28} />
-              <meshPhysicalMaterial attach="material-2" color={card.edgeColor} metalness={0.85} roughness={0.28} />
-              <meshPhysicalMaterial attach="material-3" color={card.edgeColor} metalness={0.85} roughness={0.28} />
-              <meshPhysicalMaterial attach="material-4" map={texture} {...faceMaterialProps} />
-              <meshPhysicalMaterial attach="material-5" map={texture} {...faceMaterialProps} />
             </mesh>
           );
         })}
