@@ -23,41 +23,45 @@ export default function HowItWorksSection() {
     <section id="how-it-works" ref={sectionRef} className="relative bg-[#020202]">
       <div className="mx-auto grid max-w-[1240px] grid-cols-1 gap-10 px-4 md:px-8 lg:grid-cols-2">
         <div className="pr-0 lg:pr-10">
-          {howItWorksRail.map((step, index) => (
-            <div key={step.step} className="flex min-h-screen items-center">
-              <motion.article
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.45 }}
-                transition={{ duration: 0.55, delay: index * 0.05, ease: EASE }}
-                className="w-full text-left"
-              >
-                {index === 0 ? (
-                  <>
-                    <p className="text-left text-xs uppercase tracking-[0.2em] text-white/55">
-                      {howItWorksSection.eyebrow}
-                    </p>
-                    <h2 className="display-font mt-4 max-w-3xl text-left text-4xl font-bold tracking-tight text-white md:text-6xl">
-                      {howItWorksSection.title}
-                    </h2>
-                    <p className="mt-4 max-w-2xl text-left text-base leading-relaxed text-white/74">
-                      {howItWorksSection.body}
-                    </p>
+          <motion.header
+            className="pt-14"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.4 }}
+            transition={{ duration: 0.55, ease: EASE }}
+          >
+            <p className="text-left text-xs uppercase tracking-[0.2em] text-white/55">
+              {howItWorksSection.eyebrow}
+            </p>
+            <h2 className="display-font mt-4 max-w-3xl text-left text-4xl font-bold tracking-tight text-white md:text-6xl">
+              {howItWorksSection.title}
+            </h2>
+            <p className="mt-4 max-w-2xl text-left text-base leading-relaxed text-white/74">
+              {howItWorksSection.body}
+            </p>
 
-                    <div className="mt-5 flex flex-wrap gap-2">
-                      {channels.map((channel) => (
-                        <span
-                          key={channel}
-                          className="rounded-full border border-white/18 bg-black/40 px-3 py-1.5 text-xs uppercase tracking-[0.12em] text-white/84"
-                        >
-                          {channel}
-                        </span>
-                      ))}
-                    </div>
-                  </>
-                ) : null}
+            <div className="mt-5 flex flex-wrap gap-2">
+              {channels.map((channel) => (
+                <span
+                  key={channel}
+                  className="rounded-full border border-white/18 bg-black/40 px-3 py-1.5 text-xs uppercase tracking-[0.12em] text-white/84"
+                >
+                  {channel}
+                </span>
+              ))}
+            </div>
+          </motion.header>
 
-                <div className={index === 0 ? "mt-8" : ""}>
+          <div className="mt-6">
+            {howItWorksRail.map((step, index) => (
+              <div key={step.step} className={index === 0 ? "flex min-h-[72vh] items-center" : "flex min-h-[66vh] items-center"}>
+                <motion.article
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.45 }}
+                  transition={{ duration: 0.55, delay: index * 0.05, ease: EASE }}
+                  className="w-full text-left"
+                >
                   <p className="text-left text-xs uppercase tracking-[0.17em] text-cyan-100/75">{step.step}</p>
                   <h3 className="display-font mt-3 max-w-xl text-left text-4xl font-semibold tracking-tight text-white md:text-5xl">
                     {step.title}
@@ -78,15 +82,15 @@ export default function HowItWorksSection() {
                       </div>
                     ))}
                   </div>
-                </div>
-              </motion.article>
-            </div>
-          ))}
+                </motion.article>
+              </div>
+            ))}
+          </div>
         </div>
 
         <div className="relative hidden lg:block">
           <div className="sticky top-0 flex h-screen items-center justify-end">
-            <div className="h-[72vh] w-full max-w-[540px] overflow-hidden rounded-2xl border border-white/12 bg-black/55">
+            <div className="h-[70vh] w-full max-w-[540px] overflow-hidden rounded-2xl border border-white/12 bg-black/60">
               <Canvas camera={{ position: [0, 0, 3.2], fov: 34 }} dpr={[1, 1.75]}>
                 <Experience progress={progress} />
               </Canvas>
