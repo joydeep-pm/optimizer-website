@@ -1,43 +1,63 @@
+import BaselineContainer from "../ui/BaselineContainer";
+import FadeIn from "../ui/FadeIn";
 import GlowIconTile from "../ui/GlowIconTile";
 import InfoCard from "../ui/InfoCard";
-import { disclaimer, securityCards } from "../../content/siteContent";
+import SectionIntro from "../ui/SectionIntro";
+import SignalBadge from "../ui/SignalBadge";
+import { disclaimer, securitySection } from "../../content/siteContent";
 
 export default function SecuritySection() {
   return (
-    <section id="security" className="mx-auto w-full max-w-[1240px] px-4 py-4 md:px-8 md:py-8">
-      <div className="section-shell rounded-3xl border border-white/15 bg-white/[0.03] p-6 backdrop-blur-xl md:p-8">
-        <p className="text-xs uppercase tracking-[0.2em] text-white/55">Security and Trust</p>
-        <h2 className="display-font mt-4 text-3xl font-bold tracking-tight md:text-5xl">
-          Trust signals designed into the decision layer
-        </h2>
+    <BaselineContainer id="security" tone="plum">
+      <div className="grid gap-7 lg:grid-cols-12">
+        <div className="lg:col-span-5">
+          <SectionIntro
+            eyebrow={securitySection.eyebrow}
+            title={securitySection.title}
+            body={securitySection.body}
+            titleClassName="max-w-xl"
+          />
 
-        <div className="stagger-grid mt-7 grid gap-4 md:grid-cols-3">
-          {securityCards.map((item, index) => (
-            <InfoCard
-              key={item.title}
-              title={item.title}
-              body={item.point}
-              badge={item.signalType}
-              badgeTone={index === 0 ? "positive" : index === 1 ? "info" : "amber"}
-              visual={
-                <div className="flex items-center justify-between">
-                  <GlowIconTile iconKey={item.signalType} tone={index === 0 ? "mint" : index === 1 ? "blue" : "amber"} />
-                  <span className="text-xs uppercase tracking-[0.12em] text-white/58">trust signal</span>
-                </div>
-              }
-            />
-          ))}
+          <ul className="mt-6 space-y-2">
+            {securitySection.bullets.map((bullet, index) => (
+              <FadeIn key={bullet} delay={index * 0.08} direction="up" distance={8}>
+                <li className="rounded-lg border border-white/12 bg-black/35 px-3 py-2 text-sm text-white/76">
+                  {bullet}
+                </li>
+              </FadeIn>
+            ))}
+          </ul>
         </div>
 
-        <div className="mt-6 flex flex-wrap gap-2">
-          <span className="rounded-full border border-white/16 bg-black/35 px-3 py-1.5 text-xs uppercase tracking-[0.12em] text-white/70">
-            Legal note
-          </span>
-          <span className="rounded-full border border-white/16 bg-black/35 px-3 py-1.5 text-xs text-white/65">
-            {disclaimer}
-          </span>
+        <div className="lg:col-span-7">
+          <div className="grid gap-4">
+            {securitySection.panels.map((item, index) => (
+              <InfoCard
+                key={item.title}
+                title={item.title}
+                body={item.point}
+                badge={item.tag}
+                badgeTone={index === 0 ? "info" : "amber"}
+                variant="trust"
+                className="min-h-[170px]"
+                visual={
+                  <div className="flex items-center justify-between gap-3">
+                    <GlowIconTile iconKey={item.signalType} tone={index === 0 ? "blue" : "amber"} />
+                    <SignalBadge label="Trust signal" tone={index === 0 ? "info" : "default"} />
+                  </div>
+                }
+              />
+            ))}
+          </div>
         </div>
       </div>
-    </section>
+
+      <div className="mt-6 flex flex-wrap items-center gap-2 rounded-full border border-white/14 bg-black/30 px-3 py-2">
+        <span className="rounded-full border border-white/20 bg-white/[0.05] px-2.5 py-1 text-[11px] uppercase tracking-[0.12em] text-white/72">
+          Legal note
+        </span>
+        <p className="text-sm text-white/64">{disclaimer}</p>
+      </div>
+    </BaselineContainer>
   );
 }

@@ -1,68 +1,99 @@
+import { motion, useReducedMotion } from "framer-motion";
+import BaselineContainer from "../ui/BaselineContainer";
 import InfoCard from "../ui/InfoCard";
-import FlowMiniMap from "../ui/FlowMiniMap";
+import SectionIntro from "../ui/SectionIntro";
 import SignalBadge from "../ui/SignalBadge";
-import { valueCards } from "../../content/siteContent";
-
-function ValueVisual({ visualType, chipLabels }) {
-  if (visualType === "bars") {
-    return (
-      <div className="rounded-xl border border-white/12 bg-black/40 p-3">
-        <div className="space-y-2">
-          <div className="h-2 rounded-full bg-gradient-to-r from-rose-300/65 via-amber-300/45 to-transparent" />
-          <div className="h-2 rounded-full bg-gradient-to-r from-cyan-300/70 via-emerald-300/45 to-transparent" />
-          <div className="h-2 rounded-full bg-gradient-to-r from-indigo-300/60 via-cyan-300/30 to-transparent" />
-        </div>
-      </div>
-    );
-  }
-
-  if (visualType === "chips") {
-    return (
-      <div className="flex flex-wrap gap-2">
-        {chipLabels.map((chip) => (
-          <SignalBadge key={chip} label={chip} tone="info" />
-        ))}
-      </div>
-    );
-  }
-
-  return <FlowMiniMap nodes={chipLabels} animated />;
-}
+import { valueSection } from "../../content/siteContent";
 
 export default function ValueSection() {
-  return (
-    <section id="product" className="mx-auto w-full max-w-[1240px] px-4 py-14 md:px-8 md:py-20">
-      <div className="section-shell rounded-3xl border border-white/15 bg-white/[0.03] p-6 backdrop-blur-xl md:p-8">
-        <p className="text-xs uppercase tracking-[0.2em] text-white/55">Value Proposition</p>
-        <h2 className="display-font mt-4 max-w-3xl text-3xl font-bold tracking-tight md:text-5xl">
-          Card strategy visualized as decisions, not paragraphs.
-        </h2>
-        <p className="mt-3 max-w-3xl text-sm text-white/72 md:text-base">
-          Compact signal cards surface where value drops, where fit improves, and how rule logic
-          selects stronger routes.
-        </p>
+  const reduceMotion = useReducedMotion();
 
-        <div className="mb-5 rounded-2xl border border-cyan-300/20 bg-cyan-300/5 px-4 py-3">
-          <div className="flex items-center gap-2 text-xs uppercase tracking-[0.14em] text-cyan-100/85">
-            <span className="h-2 w-2 rounded-full bg-cyan-300 shadow-[0_0_14px_rgba(34,211,238,0.85)]" />
-            Live decision surface
+  return (
+    <BaselineContainer id="product" tone="teal">
+      <div className="grid gap-7 lg:grid-cols-12 lg:items-stretch">
+        <div className="lg:col-span-5">
+          <SectionIntro
+            eyebrow={valueSection.eyebrow}
+            title={valueSection.title}
+            body={valueSection.body}
+            titleClassName="max-w-xl"
+          />
+
+          <div className="mt-6 rounded-full border border-cyan-300/20 bg-cyan-300/8 px-4 py-2.5">
+            <div className="flex items-center gap-2 text-xs uppercase tracking-[0.14em] text-cyan-100/85">
+              <span className="h-2 w-2 rounded-full bg-cyan-300 shadow-[0_0_14px_rgba(34,211,238,0.85)]" />
+              {valueSection.signalLabel}
+            </div>
           </div>
         </div>
 
-        <div className="stagger-grid mt-8 grid grid-cols-1 gap-4 lg:grid-cols-12">
-          {valueCards.map((item, index) => (
-            <InfoCard
-              key={item.title}
-              title={item.title}
-              body={item.body}
-              badge={index === 0 ? "Gap" : index === 1 ? "Fit" : "Logic"}
-              badgeTone={index === 0 ? "amber" : index === 1 ? "info" : "positive"}
-              className={index === 0 ? "lg:col-span-5 min-h-[210px]" : index === 1 ? "lg:col-span-4 min-h-[210px]" : "lg:col-span-3 min-h-[210px]"}
-              visual={<ValueVisual visualType={item.visualType} chipLabels={item.chipLabels} />}
+        <div className="lg:col-span-7">
+          <div className="relative overflow-hidden rounded-2xl border border-white/15 bg-black/48 p-5 md:p-6">
+            <motion.div
+              aria-hidden="true"
+              className="motion-value-parallax pointer-events-none absolute -left-24 top-0 h-52 w-52 rounded-full bg-cyan-300/20 blur-3xl"
+              animate={reduceMotion ? undefined : { y: [-10, 10, -10], x: [-8, 8, -8] }}
+              transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
             />
-          ))}
+
+            <motion.div
+              aria-hidden="true"
+              className="motion-value-parallax pointer-events-none absolute bottom-[-80px] right-[-70px] h-64 w-64 rounded-full bg-fuchsia-300/20 blur-3xl"
+              animate={reduceMotion ? undefined : { y: [8, -10, 8], x: [6, -4, 6] }}
+              transition={{ duration: 11, repeat: Infinity, ease: "easeInOut" }}
+            />
+
+            <div className="relative z-[1]">
+              <p className="text-xs uppercase tracking-[0.16em] text-white/56">
+                {valueSection.decisionPanel.title}
+              </p>
+              <p className="mt-3 max-w-2xl text-base leading-relaxed text-white/75">
+                {valueSection.decisionPanel.subtitle}
+              </p>
+
+              <div className="mt-5 grid gap-3 md:grid-cols-3">
+                {valueSection.decisionPanel.stages.map((stage) => (
+                  <div
+                    key={stage}
+                    className="rounded-lg border border-white/14 bg-white/[0.04] px-3 py-2 text-xs font-semibold uppercase tracking-[0.12em] text-white/82"
+                  >
+                    {stage}
+                  </div>
+                ))}
+              </div>
+
+              <div className="mt-5 space-y-3 rounded-xl border border-white/12 bg-black/35 p-3">
+                {valueSection.decisionPanel.traces.map((trace, index) => (
+                  <div
+                    key={`${trace}-${index}`}
+                    className={`h-2.5 rounded-full bg-gradient-to-r ${trace}`}
+                  />
+                ))}
+              </div>
+
+              <div className="mt-5 flex flex-wrap gap-2">
+                <SignalBadge label="merchant signal" tone="info" />
+                <SignalBadge label="channel context" tone="default" />
+                <SignalBadge label="logic route" tone="positive" />
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-    </section>
+
+      <div className="mt-6 grid gap-3 md:grid-cols-3">
+        {valueSection.supportItems.map((item, index) => (
+          <InfoCard
+            key={item.title}
+            title={item.title}
+            body={item.body}
+            badge={item.badge}
+            badgeTone={index % 2 === 0 ? "info" : "amber"}
+            variant="support"
+            className="min-h-[170px]"
+          />
+        ))}
+      </div>
+    </BaselineContainer>
   );
 }

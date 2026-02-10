@@ -1,44 +1,46 @@
-import FlowMiniMap from "../ui/FlowMiniMap";
-import FadeIn from "../ui/FadeIn";
-import InfoCard from "../ui/InfoCard";
-import { channels, workflowCards } from "../../content/siteContent";
+import BaselineContainer from "../ui/BaselineContainer";
+import SectionIntro from "../ui/SectionIntro";
+import TimelineStep from "../ui/TimelineStep";
+import { channels, howItWorksRail, howItWorksSection } from "../../content/siteContent";
 
 export default function HowItWorksSection() {
   return (
-    <section id="how-it-works" className="mx-auto w-full max-w-[1240px] px-4 py-4 md:px-8 md:py-8">
-      <div className="section-shell rounded-3xl border border-white/15 bg-white/[0.03] p-6 backdrop-blur-xl md:p-8">
-        <p className="text-xs uppercase tracking-[0.2em] text-white/55">How It Works</p>
-        <h2 className="display-font mt-4 text-3xl font-bold tracking-tight md:text-5xl">
-          A visual flow from spend intent to route decision
-        </h2>
+    <BaselineContainer id="how-it-works" tone="violet">
+      <SectionIntro
+        eyebrow={howItWorksSection.eyebrow}
+        title={howItWorksSection.title}
+        body={howItWorksSection.body}
+        titleClassName="max-w-5xl"
+      />
 
-        <div className="mt-6 flex flex-wrap gap-2">
-          {channels.map((channel) => (
-            <span
-              key={channel}
-              className="rounded-full border border-white/20 bg-black/35 px-3 py-1.5 text-xs uppercase tracking-[0.12em] text-white/84 transition hover:bg-white/[0.08]"
-            >
-              {channel}
-            </span>
-          ))}
-        </div>
+      <div className="mt-5 flex flex-wrap gap-2">
+        {channels.map((channel) => (
+          <span
+            key={channel}
+            className="rounded-full border border-white/20 bg-black/35 px-3 py-1.5 text-xs uppercase tracking-[0.12em] text-white/84 transition hover:bg-white/[0.08]"
+          >
+            {channel}
+          </span>
+        ))}
+      </div>
 
-        <div className="stagger-grid mt-7 grid gap-4 md:grid-cols-3">
-          {workflowCards.map((item, index) => (
-            <FadeIn key={item.step} delay={index * 0.2}>
-              <InfoCard
-                title={item.title}
-                body={item.line}
-                badge={item.step}
-                badgeTone="info"
-                className="relative min-h-[220px]"
-                reveal={false}
-                visual={<FlowMiniMap nodes={item.diagramNodes} animated />}
-              />
-            </FadeIn>
+      <div className="relative mt-8">
+        <div className="pointer-events-none absolute left-0 right-0 top-7 hidden h-px bg-white/10 md:block" />
+
+        <div className="grid gap-4 md:grid-cols-3">
+          {howItWorksRail.map((item, index) => (
+            <TimelineStep
+              key={item.step}
+              step={item.step}
+              title={item.title}
+              line={item.line}
+              nodes={item.diagramNodes}
+              delay={index * 0.2}
+              isLast={index === howItWorksRail.length - 1}
+            />
           ))}
         </div>
       </div>
-    </section>
+    </BaselineContainer>
   );
 }

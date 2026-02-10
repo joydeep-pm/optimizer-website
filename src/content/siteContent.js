@@ -22,129 +22,187 @@ export const hero = {
   secondaryCtaHref: "#how-it-works",
 };
 
-export const valueCards = [
-  {
-    title: "Identify Reward Leakage",
-    body: "Reveal where a default-card habit silently underperforms.",
-    visualType: "bars",
-    chipLabels: ["Spend intent", "Route fit", "Reward signal"],
+export const valueSection = {
+  eyebrow: "Value Proposition",
+  title: "Card strategy visualized as decisions, not paragraphs.",
+  body: "Compact product signals show where default habits leak value and where recommendation logic finds stronger routes.",
+  signalLabel: "Live decision surface",
+  decisionPanel: {
+    title: "Decision Canvas",
+    subtitle: "Merchant context, channel intent, and rule logic converge into one clear recommendation lane.",
+    stages: ["Intent", "Rule Match", "Route Choice"],
+    traces: [
+      "from-cyan-300/70 via-cyan-300/20 to-transparent",
+      "from-fuchsia-300/65 via-fuchsia-300/20 to-transparent",
+      "from-emerald-300/70 via-emerald-300/20 to-transparent",
+    ],
   },
-  {
-    title: "Designed for Intentional Users",
-    body: "Built for users who actively optimize cards by merchant and channel.",
-    visualType: "chips",
-    chipLabels: ["Premium focus", "Merchant-aware", "Channel-layered"],
-  },
-  {
-    title: "Rule-Grounded Decisions",
-    body: "Use recommendation logic tied to known card and merchant behaviors.",
-    visualType: "pipeline",
-    chipLabels: ["Logic path", "Clear route", "Explainable output"],
-  },
-];
+  supportItems: [
+    {
+      title: "Merchant-aware signal",
+      body: "Recommendations flex to merchant-specific reward behavior.",
+      badge: "Signal",
+    },
+    {
+      title: "Channel-layered logic",
+      body: "Online, offline, UPI, and portal routes are evaluated differently.",
+      badge: "Layer",
+    },
+    {
+      title: "Explainable output",
+      body: "Each route ships with concise reasoning, not black-box scoring.",
+      badge: "Explain",
+    },
+  ],
+};
 
-export const workflowCards = [
+export const howItWorksSection = {
+  eyebrow: "How It Works",
+  title: "A visual flow from spend intent to route decision",
+  body: "Follow one guided rail from context capture to recommendation clarity.",
+};
+
+export const howItWorksRail = [
   {
     step: "Step A",
     title: "Search Merchant + Spend Channel",
-    line: "Start with your merchant context and channel intent.",
+    line: "Start with merchant context and channel intent.",
     diagramNodes: ["Merchant", "Channel", "Context"],
   },
   {
     step: "Step B",
     title: "Evaluate Reward Intelligence",
-    line: "Run rule-aware checks before making a spend decision.",
-    diagramNodes: ["Rule set", "Card fit", "Signal"],
+    line: "Run rule-aware checks before you decide to pay.",
+    diagramNodes: ["Rule Set", "Card Fit", "Signal"],
   },
   {
     step: "Step C",
     title: "Choose the Best Card Route",
-    line: "Select the route with clear recommendation support.",
+    line: "Select one route with clear recommendation support.",
     diagramNodes: ["Recommendation", "Action", "Review"],
   },
 ];
 
-export const featureCards = [
-  {
-    title: "Merchant-Aware Optimization",
-    microCopy: "Use merchant signals to avoid flat one-card behavior.",
-    statusTag: "Merchant-aware",
-    iconKey: "merchant",
-  },
-  {
-    title: "Channel Strategy Layer",
-    microCopy: "Treat spend channels as strategic routing variables.",
-    statusTag: "Channel-layered",
-    iconKey: "channel",
-  },
-  {
-    title: "Yield Visibility",
-    microCopy: "Read reward direction before finalizing your payment path.",
-    statusTag: "Signal clarity",
-    iconKey: "yield",
-  },
-  {
-    title: "Precision Card Vault Logic",
-    microCopy: "Keep recommendations scoped to high-signal card configurations.",
-    statusTag: "Portfolio fit",
-    iconKey: "vault",
-  },
-  {
-    title: "Recommendation Clarity",
-    microCopy: "Get one clear route with concise decision rationale.",
-    statusTag: "Decision ready",
-    iconKey: "clarity",
-  },
-  {
+export const featuresSection = {
+  eyebrow: "Feature Pillars",
+  title: "Card-first capability tiles with high-signal visual cues",
+  body: "Spotlight interaction is concentrated here so this section feels most premium and alive.",
+};
+
+export const featureRows = {
+  row1: [
+    {
+      title: "Merchant-Aware Optimization",
+      microCopy: "Use merchant signals to avoid flat one-card behavior.",
+      statusTag: "Merchant-aware",
+      iconKey: "merchant",
+      badgeTone: "positive",
+      tone: "mint",
+      signalState: "Active",
+      signalTone: "info",
+    },
+    {
+      title: "Channel Strategy Layer",
+      microCopy: "Treat spend channels as strategic routing variables.",
+      statusTag: "Channel-layered",
+      iconKey: "channel",
+      badgeTone: "info",
+      tone: "blue",
+      signalState: "Adaptive",
+      signalTone: "amber",
+    },
+  ],
+  row2: [
+    {
+      title: "Yield Visibility",
+      microCopy: "Read reward direction before finalizing your payment path.",
+      statusTag: "Signal clarity",
+      iconKey: "yield",
+      badgeTone: "info",
+      tone: "amber",
+      signalState: "Ready",
+      signalTone: "info",
+    },
+    {
+      title: "Precision Card Vault Logic",
+      microCopy: "Keep recommendations scoped to high-signal card configurations.",
+      statusTag: "Portfolio fit",
+      iconKey: "vault",
+      badgeTone: "info",
+      tone: "mint",
+      signalState: "Active",
+      signalTone: "amber",
+    },
+    {
+      title: "Recommendation Clarity",
+      microCopy: "Get one clear route with concise decision rationale.",
+      statusTag: "Decision ready",
+      iconKey: "clarity",
+      badgeTone: "positive",
+      tone: "blue",
+      signalState: "Adaptive",
+      signalTone: "info",
+    },
+  ],
+  row3: {
     title: "Explainability by Design",
-    microCopy: "Understand why a recommendation wins for the chosen context.",
+    microCopy:
+      "Understand why a recommendation wins for the chosen context through concise, human-readable logic traces.",
     statusTag: "Explainable",
     iconKey: "explain",
+    badgeTone: "info",
+    tone: "mint",
+    signalState: "Ready",
+    signalTone: "amber",
   },
-];
+};
 
-export const securityCards = [
-  {
-    title: "Decision-Layer Focus",
-    point: "Card Optimizer focuses on routing intelligence, not payment execution.",
-    signalType: "shield",
-  },
-  {
-    title: "Transparent Logic Signals",
-    point: "Each recommendation is tied to interpretable context and decision cues.",
-    signalType: "trace",
-  },
-  {
-    title: "Responsible Claim Framing",
-    point: "Guidance avoids guaranteed-return language and highlights issuer variability.",
-    signalType: "policy",
-  },
-];
+export const securitySection = {
+  eyebrow: "Security and Trust",
+  title: "Trust signals designed into the decision layer",
+  body: "Card Optimizer focuses on recommendation intelligence with transparent, responsible product framing.",
+  bullets: [
+    "Routing guidance is separated from payment execution paths.",
+    "Decision logic is tied to interpretable context and card behavior.",
+    "Claim language avoids guaranteed-return framing.",
+  ],
+  panels: [
+    {
+      title: "Transparent Logic Signals",
+      point: "Each recommendation is tied to context clues users can inspect.",
+      signalType: "trace",
+      tag: "Trace",
+    },
+    {
+      title: "Responsible Policy Framing",
+      point: "Guidance is designed around issuer variability and evolving terms.",
+      signalType: "policy",
+      tag: "Policy",
+    },
+  ],
+};
 
-export const faqCards = [
+export const faqList = [
   {
     question: "How does Card Optimizer choose a recommendation?",
-    answer: "It combines merchant context, channel intent, and rule-aware card behavior.",
+    answer:
+      "Recommendations blend merchant context, channel intent, and rule-aware card behavior into one route suggestion.",
     tag: "Decision logic",
   },
   {
     question: "Are recommendation outcomes guaranteed?",
-    answer: "No. Actual outcomes depend on issuer terms, exclusions, and policy changes.",
+    answer:
+      "No. Outcomes depend on issuer terms, exclusions, caps, and program updates that can change over time.",
     tag: "Expectations",
   },
   {
-    question: "Which spend channels are included?",
-    answer: "Current channel modeling includes Online, Offline, UPI, and Portal routes.",
+    question: "Which spend channels are covered?",
+    answer: "Current channel modeling includes online, offline, UPI, and portal routes.",
     tag: "Coverage",
   },
   {
-    question: "Why is the portfolio intentionally focused?",
-    answer: "A focused model improves clarity and keeps recommendation logic high-signal.",
-    tag: "Model design",
-  },
-  {
     question: "What happens after I join the waitlist?",
-    answer: "You receive updates on early access windows and onboarding announcements.",
+    answer: "You receive launch timing updates and onboarding instructions as access opens.",
     tag: "Waitlist",
   },
 ];

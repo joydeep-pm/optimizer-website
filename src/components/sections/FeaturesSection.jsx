@@ -1,65 +1,94 @@
+import BaselineContainer from "../ui/BaselineContainer";
 import GlowIconTile from "../ui/GlowIconTile";
+import SectionIntro from "../ui/SectionIntro";
 import SignalBadge from "../ui/SignalBadge";
 import SpotlightCard from "../ui/SpotlightCard";
-import { featureCards } from "../../content/siteContent";
+import { featureRows, featuresSection } from "../../content/siteContent";
 
-function toneForIndex(index) {
-  if (index % 3 === 0) return "mint";
-  if (index % 3 === 1) return "blue";
-  return "amber";
+function FeatureMeta({ iconKey, tone, signalState, signalTone }) {
+  return (
+    <div className="flex items-center justify-between gap-3">
+      <GlowIconTile iconKey={iconKey} tone={tone} />
+      <div className="flex items-center gap-2">
+        <span className="text-xs uppercase tracking-[0.14em] text-white/56">signal</span>
+        <SignalBadge label={signalState} tone={signalTone} />
+      </div>
+    </div>
+  );
 }
 
 export default function FeaturesSection() {
   return (
-    <section id="features" className="mx-auto w-full max-w-[1240px] px-4 py-4 md:px-8 md:py-8">
-      <div className="section-shell rounded-3xl border border-white/15 bg-white/[0.03] p-6 backdrop-blur-xl md:p-8">
-        <p className="text-xs uppercase tracking-[0.2em] text-white/55">Feature Pillars</p>
-        <h2 className="display-font mt-4 text-3xl font-bold tracking-tight md:text-5xl">
-          Card-first capability tiles with high-signal visual cues
-        </h2>
-        <p className="mt-3 max-w-3xl text-sm text-white/70 md:text-base">
-          Each tile reacts to cursor and carries persistent ambient motion so the section feels
-          alive even before interaction.
-        </p>
+    <BaselineContainer id="features" tone="neutral">
+      <SectionIntro
+        eyebrow={featuresSection.eyebrow}
+        title={featuresSection.title}
+        body={featuresSection.body}
+        titleClassName="max-w-4xl"
+      />
 
-        <div className="stagger-grid mt-8 grid auto-rows-[1fr] gap-4 md:grid-cols-6">
-          {featureCards.map((feature, index) => (
-            <SpotlightCard
-              key={feature.title}
-              title={feature.title}
-              body={feature.microCopy}
-              badge={feature.statusTag}
-              badgeTone={index % 2 === 0 ? "positive" : "info"}
-              className={
-                index === 0
-                  ? "md:col-span-3"
-                  : index === 1
-                    ? "md:col-span-3"
-                    : index === 2
-                      ? "md:col-span-2"
-                      : index === 3
-                        ? "md:col-span-2"
-                        : index === 4
-                          ? "md:col-span-2"
-                        : "md:col-span-6 min-h-[200px]"
-              }
-            >
-              <div className="flex items-center justify-between gap-3">
-                <GlowIconTile iconKey={feature.iconKey} tone={toneForIndex(index)} />
-                <div className="flex items-center justify-between gap-3">
-                  <span className="text-xs uppercase tracking-[0.12em] text-white/58">
-                    signal
-                  </span>
-                  <SignalBadge
-                    label={index % 3 === 0 ? "Active" : index % 3 === 1 ? "Adaptive" : "Ready"}
-                    tone={index % 2 === 0 ? "info" : "amber"}
-                  />
-                </div>
-              </div>
-            </SpotlightCard>
-          ))}
-        </div>
+      <div className="mt-8 grid gap-4 md:grid-cols-2">
+        {featureRows.row1.map((feature) => (
+          <SpotlightCard
+            key={feature.title}
+            title={feature.title}
+            body={feature.microCopy}
+            badge={feature.statusTag}
+            badgeTone={feature.badgeTone}
+            className="min-h-[250px]"
+            spotlightSize={360}
+            ambientStrength={0.28}
+          >
+            <FeatureMeta
+              iconKey={feature.iconKey}
+              tone={feature.tone}
+              signalState={feature.signalState}
+              signalTone={feature.signalTone}
+            />
+          </SpotlightCard>
+        ))}
       </div>
-    </section>
+
+      <div className="mt-4 grid gap-4 md:grid-cols-3">
+        {featureRows.row2.map((feature) => (
+          <SpotlightCard
+            key={feature.title}
+            title={feature.title}
+            body={feature.microCopy}
+            badge={feature.statusTag}
+            badgeTone={feature.badgeTone}
+            className="min-h-[220px]"
+            spotlightSize={300}
+            ambientStrength={0.21}
+          >
+            <FeatureMeta
+              iconKey={feature.iconKey}
+              tone={feature.tone}
+              signalState={feature.signalState}
+              signalTone={feature.signalTone}
+            />
+          </SpotlightCard>
+        ))}
+      </div>
+
+      <div className="mt-4">
+        <SpotlightCard
+          title={featureRows.row3.title}
+          body={featureRows.row3.microCopy}
+          badge={featureRows.row3.statusTag}
+          badgeTone={featureRows.row3.badgeTone}
+          className="min-h-[210px]"
+          spotlightSize={420}
+          ambientStrength={0.24}
+        >
+          <FeatureMeta
+            iconKey={featureRows.row3.iconKey}
+            tone={featureRows.row3.tone}
+            signalState={featureRows.row3.signalState}
+            signalTone={featureRows.row3.signalTone}
+          />
+        </SpotlightCard>
+      </div>
+    </BaselineContainer>
   );
 }
