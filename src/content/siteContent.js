@@ -13,6 +13,27 @@ export const navLinks = [
 
 export const channels = ["Online", "Offline", "UPI", "Portal"];
 
+export const carouselCards = [
+  {
+    id: "hsbc-premier",
+    name: "HSBC Premier",
+    textureUrl: "/cards/hsbc-premier.png",
+    edgeColor: "#cfd4dd",
+  },
+  {
+    id: "icici-emeralde",
+    name: "ICICI Emeralde",
+    textureUrl: "/cards/icici-emeralde.png",
+    edgeColor: "#c8a258",
+  },
+  {
+    id: "axis-atlas",
+    name: "Axis Atlas",
+    textureUrl: "/cards/axis-atlas.png",
+    edgeColor: "#949aa4",
+  },
+];
+
 export const hero = {
   eyebrow: "Credit Card Co-Pilot for Premium Users in India",
   headline: "Turn Every Swipe Into Smarter Reward Yield",
