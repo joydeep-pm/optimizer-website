@@ -43,9 +43,9 @@ export default function FeaturesSection() {
             body={visualLead.microCopy}
             badge={visualLead.statusTag}
             badgeTone={visualLead.badgeTone}
-            className="min-h-[360px]"
-            spotlightSize={460}
-            ambientStrength={0.22}
+            className="min-h-[320px]"
+            spotlightSize={420}
+            ambientStrength={0.2}
           >
             <div className="space-y-4">
               <FeatureMeta
@@ -54,11 +54,18 @@ export default function FeaturesSection() {
                 signalState={visualLead.signalState}
                 signalTone={visualLead.signalTone}
               />
-              <div className="rounded-xl border border-white/14 bg-black/35 p-4">
-                <div className="space-y-2">
+
+              <div className="rounded-xl border border-white/14 bg-black/30 p-4">
+                <div className="grid grid-cols-6 gap-2">
+                  <span className="col-span-4 h-10 rounded-lg bg-gradient-to-r from-cyan-300/35 to-transparent" />
+                  <span className="col-span-2 h-10 rounded-lg bg-white/[0.06]" />
+                  <span className="col-span-3 h-8 rounded-lg bg-white/[0.08]" />
+                  <span className="col-span-3 h-8 rounded-lg bg-gradient-to-r from-blue-300/35 to-transparent" />
+                </div>
+
+                <div className="mt-4 space-y-2">
                   <div className="h-2 rounded-full bg-gradient-to-r from-cyan-300/70 to-transparent" />
                   <div className="h-2 rounded-full bg-gradient-to-r from-cyan-200/60 to-transparent" />
-                  <div className="h-2 rounded-full bg-gradient-to-r from-blue-300/50 to-transparent" />
                 </div>
               </div>
             </div>
@@ -72,9 +79,9 @@ export default function FeaturesSection() {
               body={sideLead.microCopy}
               badge={sideLead.statusTag}
               badgeTone={sideLead.badgeTone}
-              className="min-h-[172px]"
-              spotlightSize={320}
-              ambientStrength={0.18}
+              className="min-h-[152px]"
+              spotlightSize={300}
+              ambientStrength={0.16}
             >
               <FeatureMeta
                 iconKey={sideLead.iconKey}
@@ -91,9 +98,9 @@ export default function FeaturesSection() {
               body={tileA.microCopy}
               badge={tileA.statusTag}
               badgeTone={tileA.badgeTone}
-              className="min-h-[172px]"
-              spotlightSize={280}
-              ambientStrength={0.15}
+              className="min-h-[152px]"
+              spotlightSize={260}
+              ambientStrength={0.14}
             >
               <FeatureMeta
                 iconKey={tileA.iconKey}
@@ -114,9 +121,9 @@ export default function FeaturesSection() {
               body={feature.microCopy}
               badge={feature.statusTag}
               badgeTone={feature.badgeTone}
-              className="min-h-[168px]"
-              spotlightSize={260}
-              ambientStrength={0.14}
+              className="min-h-[148px]"
+              spotlightSize={240}
+              ambientStrength={0.12}
             >
               <FeatureMeta
                 iconKey={feature.iconKey}
