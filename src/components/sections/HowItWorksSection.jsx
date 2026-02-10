@@ -21,6 +21,18 @@ export default function HowItWorksSection() {
 
   return (
     <section id="how-it-works" ref={sectionRef} className="relative bg-[#020202]">
+      {/* Top fade — blends with previous section */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 top-0 z-[2] h-32"
+        style={{ background: "linear-gradient(to bottom, #020202, transparent)" }}
+      />
+      {/* Bottom fade — blends into next section */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 bottom-0 z-[2] h-32"
+        style={{ background: "linear-gradient(to top, #020202, transparent)" }}
+      />
       <div className="mx-auto grid max-w-[1240px] grid-cols-1 gap-10 px-4 md:px-8 lg:grid-cols-2">
         <div className="pr-0 lg:pr-10">
           <motion.header
@@ -58,8 +70,8 @@ export default function HowItWorksSection() {
                 key={step.step}
                 className={
                   index === 0
-                    ? "flex min-h-[60vh] items-center md:min-h-[56vh]"
-                    : "flex min-h-[56vh] items-center md:min-h-[52vh]"
+                    ? "flex min-h-[42vh] items-center md:min-h-[38vh]"
+                    : "flex min-h-[38vh] items-center md:min-h-[34vh]"
                 }
               >
                 <motion.article
@@ -97,10 +109,15 @@ export default function HowItWorksSection() {
 
         <div className="relative hidden lg:block">
           <div className="sticky top-0 flex h-screen items-center justify-end">
-            <div className="h-[70vh] w-full max-w-[540px] overflow-hidden rounded-2xl border border-white/12 bg-black/60">
-              <Canvas camera={{ position: [0, 0, 3.2], fov: 34 }} dpr={[1, 1.75]}>
-                <Experience progress={progress} />
-              </Canvas>
+            <div className="relative h-[70vh] w-full max-w-[540px]">
+              {/* Background panel with border — sits behind the card */}
+              <div className="absolute inset-0 rounded-2xl border border-white/12 bg-black/60" />
+              {/* Canvas sits on top — no overflow clip so card isn't cut during rotation */}
+              <div className="relative h-full w-full">
+                <Canvas camera={{ position: [0, 0, 4], fov: 38 }} dpr={[1, 1.75]}>
+                  <Experience progress={progress} />
+                </Canvas>
+              </div>
             </div>
           </div>
         </div>
