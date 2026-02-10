@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import SignalBadge from "./SignalBadge";
+
+const EASE: [number, number, number, number] = [0.25, 0.1, 0.25, 1.0];
 
 interface AccordionItemProps {
   question: string;
@@ -19,24 +20,19 @@ export default function AccordionItem({
   const reduceMotion = useReducedMotion();
 
   return (
-    <div className="motion-accordion relative overflow-hidden rounded-xl border border-white/12 bg-black/45 backdrop-blur-xl">
-      <motion.span
-        aria-hidden="true"
-        className="pointer-events-none absolute bottom-0 left-0 top-0 w-1 rounded-r bg-gradient-to-b from-cyan-300/80 via-cyan-300/40 to-transparent"
-        animate={{ opacity: isOpen ? 1 : 0 }}
-        transition={{ duration: 0.22, ease: "easeOut" }}
-      />
-
+    <div className="border-b border-white/14 py-1">
       <button
         type="button"
         onClick={() => setIsOpen((prev) => !prev)}
-        className="flex w-full items-center justify-between gap-4 px-4 py-4 text-left outline-none transition hover:bg-white/[0.04] focus-visible:ring-2 focus-visible:ring-cyan-300/60"
+        className="flex w-full items-center justify-between gap-4 px-0 py-4 text-left outline-none focus-visible:ring-2 focus-visible:ring-cyan-300/60"
         aria-expanded={isOpen}
       >
-        <span className="pr-3 text-lg font-semibold leading-tight text-white">{question}</span>
+        <span className="pr-3 text-left text-2xl font-semibold leading-tight text-white">{question}</span>
 
         <div className="flex shrink-0 items-center gap-3">
-          <SignalBadge label={tag} tone="info" />
+          <span className="rounded-full border border-white/20 px-3 py-1 text-xs uppercase tracking-[0.12em] text-white/72">
+            {tag}
+          </span>
           <motion.svg
             width="16"
             height="16"
@@ -44,7 +40,7 @@ export default function AccordionItem({
             fill="none"
             aria-hidden="true"
             animate={{ rotate: isOpen ? 180 : 0 }}
-            transition={{ duration: 0.2, ease: "easeOut" }}
+            transition={{ duration: 0.25, ease: EASE }}
             className="text-white/65"
           >
             <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" strokeWidth="1.75" />
@@ -56,13 +52,13 @@ export default function AccordionItem({
         {isOpen ? (
           <motion.div
             key="content"
-            initial={reduceMotion ? { opacity: 1, height: "auto" } : { opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={reduceMotion ? { opacity: 0, height: "auto" } : { opacity: 0, height: 0 }}
-            transition={{ duration: 0.26, ease: [0.22, 1, 0.36, 1] }}
+            initial={reduceMotion ? { opacity: 1, y: 0, height: "auto" } : { opacity: 0, y: 20, height: 0 }}
+            animate={{ opacity: 1, y: 0, height: "auto" }}
+            exit={reduceMotion ? { opacity: 0, y: 0, height: "auto" } : { opacity: 0, y: 20, height: 0 }}
+            transition={{ duration: 0.35, ease: EASE }}
             className="overflow-hidden"
           >
-            <p className="px-4 pb-4 text-base leading-relaxed text-white/72">{answer}</p>
+            <p className="pb-4 text-left text-base leading-relaxed text-white/72">{answer}</p>
           </motion.div>
         ) : null}
       </AnimatePresence>

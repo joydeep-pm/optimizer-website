@@ -84,6 +84,11 @@ body {
   z-index: 1;
 }
 
+.section-plain::before,
+.section-plain::after {
+  display: none;
+}
+
 .section-tone-teal::before {
   background:
     radial-gradient(circle at 14% 12%, rgba(56, 189, 248, 0.2), transparent 42%),

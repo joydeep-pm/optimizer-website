@@ -1,63 +1,112 @@
-import BaselineContainer from "../ui/BaselineContainer";
-import FadeIn from "../ui/FadeIn";
-import GlowIconTile from "../ui/GlowIconTile";
-import InfoCard from "../ui/InfoCard";
-import SectionIntro from "../ui/SectionIntro";
-import SignalBadge from "../ui/SignalBadge";
+import { motion } from "framer-motion";
 import { disclaimer, securitySection } from "../../content/siteContent";
 
-export default function SecuritySection() {
+const EASE = [0.25, 0.1, 0.25, 1.0];
+
+function signalLabel(signalType) {
+  if (signalType === "trace") return "Trace";
+  if (signalType === "policy") return "Policy";
+  return "Signal";
+}
+
+function signalGlyph(signalType) {
+  if (signalType === "trace") return "T";
+  if (signalType === "policy") return "P";
+  return "S";
+}
+
+function DividerLane({ title, body, signalType, delay = 0, withDivider = false }) {
   return (
-    <BaselineContainer id="security" tone="plum">
-      <div className="grid gap-7 lg:grid-cols-12">
-        <div className="lg:col-span-5">
-          <SectionIntro
-            eyebrow={securitySection.eyebrow}
-            title={securitySection.title}
-            body={securitySection.body}
-            titleClassName="max-w-xl"
-          />
+    <motion.article
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.35 }}
+      transition={{ duration: 0.55, delay, ease: EASE }}
+      className="relative text-left lg:pl-8"
+    >
+      {withDivider ? (
+        <motion.span
+          aria-hidden="true"
+          className="absolute left-0 top-0 hidden h-full w-px origin-top bg-gradient-to-b from-cyan-300/65 via-white/30 to-transparent lg:block"
+          initial={{ opacity: 0, scaleY: 0 }}
+          whileInView={{ opacity: 1, scaleY: 1 }}
+          viewport={{ once: true, amount: 0.4 }}
+          transition={{ duration: 0.55, delay: delay + 0.05, ease: EASE }}
+        />
+      ) : null}
 
-          <ul className="mt-6 space-y-2">
-            {securitySection.bullets.map((bullet, index) => (
-              <FadeIn key={bullet} delay={index * 0.08} direction="up" distance={8}>
-                <li className="rounded-lg border border-white/12 bg-black/35 px-3 py-2 text-sm text-white/76">
-                  {bullet}
-                </li>
-              </FadeIn>
-            ))}
-          </ul>
-        </div>
-
-        <div className="lg:col-span-7">
-          <div className="grid gap-4">
-            {securitySection.panels.map((item, index) => (
-              <InfoCard
-                key={item.title}
-                title={item.title}
-                body={item.point}
-                badge={item.tag}
-                badgeTone={index === 0 ? "info" : "amber"}
-                variant="trust"
-                className="min-h-[170px]"
-                visual={
-                  <div className="flex items-center justify-between gap-3">
-                    <GlowIconTile iconKey={item.signalType} tone={index === 0 ? "blue" : "amber"} />
-                    <SignalBadge label="Trust signal" tone={index === 0 ? "info" : "default"} />
-                  </div>
-                }
-              />
-            ))}
-          </div>
-        </div>
-      </div>
-
-      <div className="mt-6 flex flex-wrap items-center gap-2 rounded-full border border-white/14 bg-black/30 px-3 py-2">
-        <span className="rounded-full border border-white/20 bg-white/[0.05] px-2.5 py-1 text-[11px] uppercase tracking-[0.12em] text-white/72">
-          Legal note
+      <div className="mb-4 flex items-center justify-between gap-3">
+        <span className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/20 text-sm font-semibold tracking-[0.08em] text-white/90">
+          {signalGlyph(signalType)}
         </span>
-        <p className="text-sm text-white/64">{disclaimer}</p>
+        <span className="text-xs uppercase tracking-[0.14em] text-white/58">{signalLabel(signalType)}</span>
       </div>
-    </BaselineContainer>
+
+      <h3 className="display-font text-left text-3xl font-semibold tracking-tight text-white">{title}</h3>
+      <p className="mt-3 max-w-md text-left text-base leading-relaxed text-white/72">{body}</p>
+    </motion.article>
+  );
+}
+
+export default function SecuritySection() {
+  const firstPanel = {
+    title: "Trust by Design",
+    body: securitySection.bullets.join(" "),
+    signalType: "shield",
+  };
+
+  return (
+    <section id="security" className="mx-auto w-full max-w-[1240px] px-4 py-14 md:px-8 md:py-20">
+      <motion.header
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.4 }}
+        transition={{ duration: 0.55, ease: EASE }}
+        className="text-left"
+      >
+        <p className="text-left text-xs uppercase tracking-[0.2em] text-white/55">
+          {securitySection.eyebrow}
+        </p>
+        <h2 className="display-font mt-3 max-w-4xl text-left text-4xl font-bold tracking-tight text-white md:text-6xl">
+          {securitySection.title}
+        </h2>
+        <p className="mt-4 max-w-3xl text-left text-base leading-relaxed text-white/72">
+          {securitySection.body}
+        </p>
+      </motion.header>
+
+      <div className="mt-10 grid gap-8 lg:grid-cols-12">
+        <div className="lg:col-span-4">
+          <DividerLane
+            title={firstPanel.title}
+            body={firstPanel.body}
+            signalType={firstPanel.signalType}
+            delay={0}
+          />
+        </div>
+
+        {securitySection.panels.map((item, index) => (
+          <div key={item.title} className="lg:col-span-4">
+            <DividerLane
+              title={item.title}
+              body={item.point}
+              signalType={item.signalType}
+              delay={0.05 * (index + 1)}
+              withDivider
+            />
+          </div>
+        ))}
+      </div>
+
+      <motion.p
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.5 }}
+        transition={{ duration: 0.55, delay: 0.15, ease: EASE }}
+        className="mt-10 border-t border-white/12 pt-4 text-left text-sm text-white/62"
+      >
+        {disclaimer}
+      </motion.p>
+    </section>
   );
 }
