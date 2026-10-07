@@ -4,34 +4,22 @@ import HowItWorksSection from "./components/sections/HowItWorksSection";
 import FeaturesSection from "./components/sections/FeaturesSection";
 import SecuritySection from "./components/sections/SecuritySection";
 import FaqSection from "./components/sections/FaqSection";
-
-function SectionFade({ from = "transparent", to = "transparent", height = "80px" }) {
-  return (
-    <div
-      aria-hidden="true"
-      className="pointer-events-none relative z-10"
-      style={{
-        height,
-        background: `linear-gradient(to bottom, ${from}, ${to})`,
-      }}
-    />
-  );
-}
+import FinalCtaSection from "./components/sections/FinalCtaSection";
+import FooterSection from "./components/sections/FooterSection";
 
 export default function App() {
   return (
-    <div className="bg-black text-white">
+    <div className="bg-[#020202] text-white">
       <HeroSection />
       <main>
-        <SectionFade from="#020202" to="#020202" height="40px" />
         <ValueSection />
-        <SectionFade from="#020202" to="#020202" height="48px" />
         <HowItWorksSection />
-        <SectionFade from="#020202" to="#020202" height="48px" />
         <FeaturesSection />
         <SecuritySection />
         <FaqSection />
+        <FinalCtaSection />
       </main>
+      <FooterSection />
     </div>
   );
 }
