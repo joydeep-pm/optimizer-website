@@ -1,13 +1,12 @@
 export const videoUrls = [
   "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260207_050933_33e2620d-09cd-43a2-80ef-4cdbb42f4194.mp4",
-  "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260207_%20050933_33e2620d-09cd-43a2-80ef-4cdbb42f4194.mp4",
 ];
 
 export const navLinks = [
   { label: "Product", href: "#product" },
-  { label: "How it Works", href: "#how-it-works" },
+  { label: "How it works", href: "#how-it-works" },
   { label: "Features", href: "#features" },
-  { label: "Security", href: "#security" },
+  { label: "Trust", href: "#security" },
   { label: "FAQ", href: "#faq" },
 ];
 
@@ -35,97 +34,84 @@ export const carouselCards = [
 ];
 
 export const hero = {
-  eyebrow: "Credit Card Co-Pilot for Premium Users in India",
-  headline: "Turn Every Swipe Into Smarter Reward Yield",
+  eyebrow: "Credit card co-pilot for premium users in India",
+  headline: "Know exactly which credit card to use — before you pay.",
   subheadline:
-    "Card Optimizer helps you route spend through the right card, channel, and merchant path using a precision 8-card portfolio and merchant-specific reward logic.",
-  secondaryCtaLabel: "See How It Works",
-  secondaryCtaHref: "#how-it-works",
+    "Enter the merchant and how you're paying. Card Optimizer compares your cards, reward rules and payment routes to recommend the strongest option — with a clear reason why.",
+  secondaryCtaLabel: "See a recommendation",
+  secondaryCtaHref: "#product",
 };
 
 export const valueSection = {
-  eyebrow: "Value Proposition",
-  title: "Card strategy visualized as decisions, not paragraphs.",
-  body: "Compact product signals show where default habits leak value and where recommendation logic finds stronger routes.",
-  signalLabel: "Live decision surface",
-  decisionPanel: {
-    title: "Decision Canvas",
-    subtitle: "Merchant context, channel intent, and rule logic converge into one clear recommendation lane.",
-    stages: ["Intent", "Rule Match", "Route Choice"],
-    traces: [
-      "from-cyan-300/70 via-cyan-300/20 to-transparent",
-      "from-fuchsia-300/65 via-fuchsia-300/20 to-transparent",
-      "from-emerald-300/70 via-emerald-300/20 to-transparent",
-    ],
-  },
+  eyebrow: "See it in action",
+  title: "One spend. One clear recommendation.",
+  body:
+    "Card Optimizer turns a messy rewards calculation into a simple decision: which card to use, how to pay and why that route ranks above the alternatives.",
   supportItems: [
     {
-      title: "Merchant-aware signal",
-      body: "Recommendations flex to merchant-specific reward behavior.",
-      badge: "Signal",
+      title: "Tell us where you're spending",
+      body: "Merchant and spend context set the starting point for the comparison.",
     },
     {
-      title: "Channel-layered logic",
-      body: "Online, offline, UPI, and portal routes are evaluated differently.",
-      badge: "Layer",
+      title: "Choose how you're paying",
+      body: "Online, offline, UPI and issuer portals can produce different outcomes.",
     },
     {
-      title: "Explainable output",
-      body: "Each route ships with concise reasoning, not black-box scoring.",
-      badge: "Explain",
+      title: "See the best route and why",
+      body: "Get one recommended path with the relevant rule logic made visible.",
     },
   ],
 };
 
 export const howItWorksSection = {
-  eyebrow: "How It Works",
-  title: "A visual flow from spend intent to route decision",
-  body: "Follow one guided rail from context capture to recommendation clarity.",
+  eyebrow: "How it works",
+  title: "From spend intent to a decision in three steps",
+  body: "The product does the comparison work before you pay, while keeping the recommendation understandable.",
 };
 
 export const howItWorksRail = [
   {
-    step: "Step A",
-    title: "Search Merchant + Spend Channel",
-    line: "Start with merchant context and channel intent.",
-    diagramNodes: ["Merchant", "Channel", "Context"],
+    step: "Step 01",
+    title: "Enter the merchant and payment channel",
+    line: "Start with where you're spending and whether you're paying online, offline, through UPI or via a portal.",
+    diagramNodes: ["Merchant", "Channel", "Spend"],
   },
   {
-    step: "Step B",
-    title: "Evaluate Reward Intelligence",
-    line: "Run rule-aware checks before you decide to pay.",
-    diagramNodes: ["Rule Set", "Card Fit", "Signal"],
+    step: "Step 02",
+    title: "Compare your eligible cards",
+    line: "Card Optimizer evaluates relevant reward rules, exclusions, caps and route-specific benefits.",
+    diagramNodes: ["Rules", "Cards", "Caps"],
   },
   {
-    step: "Step C",
-    title: "Choose the Best Card Route",
-    line: "Select one route with clear recommendation support.",
-    diagramNodes: ["Recommendation", "Action", "Review"],
+    step: "Step 03",
+    title: "Use the strongest route",
+    line: "See the recommended card and payment path, plus a concise explanation of why it wins.",
+    diagramNodes: ["Recommendation", "Reason", "Pay"],
   },
 ];
 
 export const featuresSection = {
-  eyebrow: "Feature Pillars",
-  title: "Card-first capability tiles with high-signal visual cues",
-  body: "Spotlight interaction is concentrated here so this section feels most premium and alive.",
+  eyebrow: "Built for real card decisions",
+  title: "The parts of credit card optimization that are easy to miss",
+  body: "A recommendation should account for the merchant, payment channel, current card rules and the trade-offs behind the final choice.",
 };
 
 export const featureRows = {
   row1: [
     {
-      title: "Merchant-Aware Optimization",
-      microCopy: "Use merchant signals to avoid flat one-card behavior.",
-      statusTag: "Merchant-aware",
+      title: "Merchant-aware comparison",
+      microCopy: "Avoid treating every transaction as if the same card always wins.",
+      statusTag: "Merchant",
       iconKey: "merchant",
       badgeTone: "positive",
       tone: "mint",
-      signalState: "Active",
+      signalState: "Context",
       signalTone: "info",
     },
     {
-      title: "Channel Strategy Layer",
-      microCopy: "Treat spend channels as strategic routing variables.",
-      statusTag: "Channel-layered",
+      title: "Payment-route awareness",
+      microCopy: "Compare online, offline, UPI and portal routes instead of only the card.",
+      statusTag: "Channel",
       iconKey: "channel",
       badgeTone: "info",
       tone: "blue",
@@ -135,70 +121,66 @@ export const featureRows = {
   ],
   row2: [
     {
-      title: "Yield Visibility",
-      microCopy: "Read reward direction before finalizing your payment path.",
-      statusTag: "Signal clarity",
+      title: "Reward comparison",
+      microCopy: "See the relative reward direction before committing to a payment path.",
+      statusTag: "Compare",
       iconKey: "yield",
       badgeTone: "info",
       tone: "amber",
-      signalState: "Ready",
+      signalState: "Visible",
       signalTone: "info",
     },
     {
-      title: "Precision Card Vault Logic",
-      microCopy: "Keep recommendations scoped to high-signal card configurations.",
-      statusTag: "Portfolio fit",
+      title: "Portfolio-based recommendations",
+      microCopy: "Keep recommendations relevant to the cards you actually hold.",
+      statusTag: "Portfolio",
       iconKey: "vault",
       badgeTone: "info",
       tone: "mint",
-      signalState: "Active",
+      signalState: "Personal",
       signalTone: "amber",
     },
     {
-      title: "Recommendation Clarity",
-      microCopy: "Get one clear route with concise decision rationale.",
-      statusTag: "Decision ready",
+      title: "One clear answer",
+      microCopy: "Reduce the mental math to a single recommended route for the spend context.",
+      statusTag: "Decision",
       iconKey: "clarity",
       badgeTone: "positive",
       tone: "blue",
-      signalState: "Adaptive",
+      signalState: "Clear",
       signalTone: "info",
     },
   ],
   row3: {
-    title: "Explainability by Design",
+    title: "Explainable by design",
     microCopy:
-      "Understand why a recommendation wins for the chosen context through concise, human-readable logic traces.",
+      "See the reason behind a recommendation instead of relying on an unexplained score.",
     statusTag: "Explainable",
     iconKey: "explain",
     badgeTone: "info",
     tone: "mint",
-    signalState: "Ready",
+    signalState: "Transparent",
     signalTone: "amber",
   },
 };
 
 export const securitySection = {
-  eyebrow: "Security and Trust",
-  title: "Trust signals designed into the decision layer",
-  body: "Card Optimizer focuses on recommendation intelligence with transparent, responsible product framing.",
-  bullets: [
-    "Routing guidance is separated from payment execution paths.",
-    "Decision logic is tied to interpretable context and card behavior.",
-    "Claim language avoids guaranteed-return framing.",
-  ],
+  eyebrow: "Trust and accuracy",
+  title: "Useful guidance needs clear boundaries.",
+  body:
+    "Card Optimizer is designed as a recommendation layer, not a payment executor. Recommendations should remain inspectable and account for the fact that issuer rules can change.",
   panels: [
     {
-      title: "Transparent Logic Signals",
-      point: "Each recommendation is tied to context clues users can inspect.",
-      signalType: "trace",
-      tag: "Trace",
+      title: "Recommendations, not payments",
+      point: "The product is designed to help you choose a route before payment rather than execute the transaction itself.",
     },
     {
-      title: "Responsible Policy Framing",
-      point: "Guidance is designed around issuer variability and evolving terms.",
-      signalType: "policy",
-      tag: "Policy",
+      title: "Show the reason",
+      point: "A recommendation should identify the merchant, channel or rule context that materially affected the result.",
+    },
+    {
+      title: "Issuer terms still apply",
+      point: "Reward rates, caps, exclusions and eligibility can change. Recommendations should be checked against current issuer terms.",
     },
   ],
 };
@@ -207,26 +189,34 @@ export const faqList = [
   {
     question: "How does Card Optimizer choose a recommendation?",
     answer:
-      "Recommendations blend merchant context, channel intent, and rule-aware card behavior into one route suggestion.",
-    tag: "Decision logic",
+      "It compares the merchant, payment channel and relevant card rules to rank the available routes and explain the strongest option.",
+    tag: "How it works",
   },
   {
-    question: "Are recommendation outcomes guaranteed?",
+    question: "Does Card Optimizer make the payment for me?",
     answer:
-      "No. Outcomes depend on issuer terms, exclusions, caps, and program updates that can change over time.",
-    tag: "Expectations",
+      "No. Card Optimizer is designed to recommend a card and payment route before you pay; it does not execute the transaction.",
+    tag: "Payments",
   },
   {
-    question: "Which spend channels are covered?",
-    answer: "Current channel modeling includes online, offline, UPI, and portal routes.",
+    question: "Are reward outcomes guaranteed?",
+    answer:
+      "No. Issuer terms, exclusions, caps, eligibility and program rules can change, so actual reward outcomes can differ.",
+    tag: "Accuracy",
+  },
+  {
+    question: "Which payment channels are considered?",
+    answer:
+      "The current product framing includes online, offline, UPI and issuer or merchant portal routes.",
     tag: "Coverage",
   },
   {
     question: "What happens after I join the waitlist?",
-    answer: "You receive launch timing updates and onboarding instructions as access opens.",
+    answer:
+      "You'll receive launch and onboarding updates as access becomes available.",
     tag: "Waitlist",
   },
 ];
 
 export const disclaimer =
-  "Illustrative examples. Terms, exclusions, caps, and issuer rules apply.";
+  "Illustrative examples only. Actual rewards depend on current issuer terms, exclusions, caps and eligibility.";
