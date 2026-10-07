@@ -19,7 +19,7 @@ export default function FooterSection() {
               {item.label}
             </a>
           ))}
-          <a href="mailto:hello@cardoptimizer.in" className="hover:text-white">Contact</a>
+          <a href="#waitlist" className="hover:text-white">Join waitlist</a>
         </nav>
       </div>
 
