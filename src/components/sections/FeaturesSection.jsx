@@ -21,7 +21,7 @@ function MerchantViz() {
       <div className="flex items-center gap-2">
         {["Merchant", "Rules", "Card"].map((label, i) => (
           <div key={label} className="flex items-center gap-2">
-            <span className="rounded-md border border-violet-400/14 bg-violet-500/10 px-2.5 py-1 text-[10px] uppercase tracking-widest text-violet-200/80">
+            <span className="rounded-md border border-violet-400/14 bg-violet-500/10 px-2.5 py-1 text-xs uppercase tracking-widest text-violet-200/80">
               {label}
             </span>
             {i < 2 ? (
@@ -50,7 +50,7 @@ function ChannelViz() {
     <div className="mt-4 space-y-2">
       {layers.map((ch) => (
         <div key={ch.label} className="flex items-center gap-3">
-          <span className="w-14 shrink-0 text-[10px] uppercase tracking-wider text-white/38">
+          <span className="w-14 shrink-0 text-xs uppercase tracking-wider text-white/60">
             {ch.label}
           </span>
           <div
@@ -102,7 +102,7 @@ function FeatureCard({ feature, index, className = "", children }) {
         <h3 className="display-font mt-3 text-left text-xl font-semibold tracking-tight text-white">
           {feature.title}
         </h3>
-        <p className="mt-2 text-left text-sm leading-relaxed text-white/58">
+        <p className="mt-2 text-left text-base leading-relaxed text-white/75">
           {feature.microCopy}
         </p>
         {children}
@@ -151,7 +151,7 @@ export default function FeaturesSection() {
           viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.6, ease: EASE }}
         >
-          <p className="text-xs uppercase tracking-[0.2em] text-violet-300/70">
+          <p className="text-sm uppercase tracking-[0.2em] text-[#b49cff]">
             {featuresSection.eyebrow}
           </p>
           <h2 className="display-font mt-4 max-w-4xl text-left text-4xl font-bold leading-[1.08] tracking-tight text-white md:text-6xl lg:text-7xl">
@@ -188,13 +188,13 @@ export default function FeaturesSection() {
             transition={{ duration: 0.5, delay: 0.3, ease: EASE }}
             className="relative overflow-hidden rounded-2xl border border-violet-400/10 bg-violet-500/[0.04] p-6 text-left"
           >
-            <p className="text-[10px] uppercase tracking-[0.18em] text-violet-300/55">
+            <p className="text-sm uppercase tracking-[0.18em] text-[#b49cff]">
               Operating Principle
             </p>
             <h3 className="display-font mt-2 text-xl font-semibold tracking-tight text-white">
               {featureRows.row3.title}
             </h3>
-            <p className="mt-2 text-sm leading-relaxed text-white/58">
+            <p className="mt-2 text-base leading-relaxed text-white/75">
               {featureRows.row3.microCopy}
             </p>
             <div className="mt-4 flex flex-wrap gap-2">

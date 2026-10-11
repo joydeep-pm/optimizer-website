@@ -28,7 +28,7 @@ export default function TimelineStep({ step, title, line, nodes, delay = 0, isLa
             <SignalBadge label={step} tone="info" />
           </div>
 
-          <p className="mt-2 text-base leading-relaxed text-white/72">{line}</p>
+          <p className="mt-2 text-lg leading-relaxed text-white/75">{line}</p>
 
           <div className="mt-4">
             <FlowMiniMap nodes={nodes} animated={!reduceMotion} />

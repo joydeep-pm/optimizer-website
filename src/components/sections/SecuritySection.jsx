@@ -10,9 +10,9 @@ function signalLabel(signalType) {
 }
 
 function signalGlyph(signalType) {
-  if (signalType === "trace") return "T";
-  if (signalType === "policy") return "P";
-  return "S";
+  if (signalType === "trace") return "02";
+  if (signalType === "policy") return "03";
+  return "01";
 }
 
 function DividerLane({ title, body, signalType, delay = 0, withDivider = false }) {
@@ -27,7 +27,7 @@ function DividerLane({ title, body, signalType, delay = 0, withDivider = false }
       {withDivider ? (
         <motion.span
           aria-hidden="true"
-          className="absolute left-0 top-0 hidden h-full w-px origin-top bg-gradient-to-b from-cyan-300/65 via-white/30 to-transparent lg:block"
+          className="absolute left-0 top-0 hidden h-full w-px origin-top bg-gradient-to-b from-[#8c52ff] via-white/30 to-transparent lg:block"
           initial={{ opacity: 0, scaleY: 0 }}
           whileInView={{ opacity: 1, scaleY: 1 }}
           viewport={{ once: true, amount: 0.4 }}
@@ -36,14 +36,14 @@ function DividerLane({ title, body, signalType, delay = 0, withDivider = false }
       ) : null}
 
       <div className="mb-4 flex items-center justify-between gap-3">
-        <span className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/20 text-sm font-semibold tracking-[0.08em] text-white/90">
+        <span className="display-font text-6xl font-bold leading-none text-[#8c52ff]">
           {signalGlyph(signalType)}
         </span>
-        <span className="text-xs uppercase tracking-[0.14em] text-white/58">{signalLabel(signalType)}</span>
+        <span className="text-sm uppercase tracking-[0.14em] text-white/70">{signalLabel(signalType)}</span>
       </div>
 
       <h3 className="display-font text-left text-3xl font-semibold tracking-tight text-white">{title}</h3>
-      <p className="mt-3 max-w-md text-left text-base leading-relaxed text-white/72">{body}</p>
+      <p className="mt-3 max-w-md text-left text-lg leading-relaxed text-white/75">{body}</p>
     </motion.article>
   );
 }
@@ -64,13 +64,13 @@ export default function SecuritySection() {
         transition={{ duration: 0.55, ease: EASE }}
         className="text-left"
       >
-        <p className="text-left text-xs uppercase tracking-[0.2em] text-white/55">
+        <p className="text-left text-sm uppercase tracking-[0.2em] text-[#b49cff]">
           {securitySection.eyebrow}
         </p>
         <h2 className="display-font mt-3 max-w-4xl text-left text-4xl font-bold tracking-tight text-white md:text-6xl">
           {securitySection.title}
         </h2>
-        <p className="mt-4 max-w-3xl text-left text-base leading-relaxed text-white/72">
+        <p className="mt-4 max-w-3xl text-left text-lg leading-relaxed text-white/75">
           {securitySection.body}
         </p>
       </motion.header>

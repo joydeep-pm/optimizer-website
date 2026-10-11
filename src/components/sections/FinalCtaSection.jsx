@@ -3,22 +3,25 @@ import { disclaimer } from "../../content/siteContent";
 
 export default function FinalCtaSection() {
   return (
-    <section id="waitlist" className="mx-auto w-full max-w-[1240px] px-4 py-8 md:px-8 md:py-14">
-      <div className="rounded-3xl border border-white/15 bg-white/[0.03] p-6 backdrop-blur-xl md:p-8">
-        <p className="text-xs uppercase tracking-[0.2em] text-white/55">Final CTA</p>
-        <h2 className="display-font mt-4 max-w-3xl text-3xl font-bold tracking-tight md:text-5xl">
-          Join the waitlist for early access to Card Optimizer
-        </h2>
-        <p className="mt-4 max-w-2xl text-white/74">
-          Be first to access recommendation updates, onboarding windows, and upcoming intelligence
-          releases.
-        </p>
-
-        <div className="mt-6">
-          <WaitlistForm variant="footer" buttonLabel="Join the Waitlist" />
+    <section id="waitlist" className="mx-auto w-full max-w-[1240px] px-4 py-14 md:px-8 md:py-24">
+      <div className="relative overflow-hidden rounded-[2rem] bg-[#8c52ff] p-8 text-white md:p-16">
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute -right-24 -top-24 h-[28rem] w-[28rem] rounded-full bg-white/20 blur-3xl"
+        />
+        <div className="relative">
+          <p className="text-sm uppercase tracking-[0.2em] text-white/90">Early access</p>
+          <h2 className="display-font mt-4 max-w-4xl text-balance text-4xl font-bold leading-[1.02] tracking-tight md:text-7xl">
+            Be first to know which card to swipe.
+          </h2>
+          <p className="mt-5 max-w-2xl text-lg text-white/95 md:text-xl">
+            Join the waitlist for launch timing, onboarding windows and product updates.
+          </p>
+          <div className="mt-8">
+            <WaitlistForm variant="hero" buttonLabel="Join the Waitlist" tone="brand" />
+          </div>
+          <p className="mt-8 text-sm text-white/90">{disclaimer}</p>
         </div>
-
-        <p className="mt-6 text-sm text-white/65">{disclaimer}</p>
       </div>
     </section>
   );

@@ -1,7 +1,5 @@
-export const videoUrls = [
-  "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260207_050933_33e2620d-09cd-43a2-80ef-4cdbb42f4194.mp4",
-  "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260207_%20050933_33e2620d-09cd-43a2-80ef-4cdbb42f4194.mp4",
-];
+export const videoUrls = ["/media/hero.mp4"];
+export const heroPoster = "/media/hero-poster.jpg";
 
 export const navLinks = [
   { label: "Product", href: "#product" },
@@ -15,21 +13,21 @@ export const channels = ["Online", "Offline", "UPI", "Portal"];
 
 export const carouselCards = [
   {
-    id: "hsbc-premier",
-    name: "HSBC Premier",
-    textureUrl: "/cards/hsbc-premier.png",
+    id: "premium-travel",
+    name: "Premium Travel",
+    textureUrl: "/cards/premium-travel.png",
     edgeColor: "#cfd4dd",
   },
   {
-    id: "icici-emeralde",
-    name: "ICICI Emeralde",
-    textureUrl: "/cards/icici-emeralde.png",
+    id: "metal-rewards",
+    name: "Metal Rewards",
+    textureUrl: "/cards/metal-rewards.png",
     edgeColor: "#c8a258",
   },
   {
-    id: "axis-atlas",
-    name: "Axis Atlas",
-    textureUrl: "/cards/axis-atlas.png",
+    id: "everyday-cashback",
+    name: "Everyday Cashback",
+    textureUrl: "/cards/everyday-cashback.png",
     edgeColor: "#949aa4",
   },
 ];
@@ -38,16 +36,16 @@ export const hero = {
   eyebrow: "Credit Card Co-Pilot for Premium Users in India",
   headline: "Turn Every Swipe Into Smarter Reward Yield",
   subheadline:
-    "Card Optimizer helps you route spend through the right card, channel, and merchant path using a precision 8-card portfolio and merchant-specific reward logic.",
+    "Tell it where you are spending and how you are paying. Card Optimizer shows which of your cards to use, and why.",
   secondaryCtaLabel: "See How It Works",
   secondaryCtaHref: "#how-it-works",
 };
 
 export const valueSection = {
-  eyebrow: "Value Proposition",
-  title: "Card strategy visualized as decisions, not paragraphs.",
-  body: "Compact product signals show where default habits leak value and where recommendation logic finds stronger routes.",
-  signalLabel: "Live decision surface",
+  eyebrow: "Why Card Optimizer",
+  title: "Know which card to use before you pay.",
+  body: "Most people default to one card for everything. Card Optimizer weighs the merchant, the channel and each card's reward rules so the better route is obvious. It covers 247 Indian credit cards and 207 merchants.",
+  signalLabel: "Try it",
   decisionPanel: {
     title: "Decision Canvas",
     subtitle: "Merchant context, channel intent, and rule logic converge into one clear recommendation lane.",
@@ -79,8 +77,8 @@ export const valueSection = {
 
 export const howItWorksSection = {
   eyebrow: "How It Works",
-  title: "A visual flow from spend intent to route decision",
-  body: "Follow one guided rail from context capture to recommendation clarity.",
+  title: "Three steps from merchant to the right card",
+  body: "Say where you are spending, let the rules run, then pick a route.",
 };
 
 export const howItWorksRail = [
@@ -105,9 +103,9 @@ export const howItWorksRail = [
 ];
 
 export const featuresSection = {
-  eyebrow: "Feature Pillars",
-  title: "Card-first capability tiles with high-signal visual cues",
-  body: "Spotlight interaction is concentrated here so this section feels most premium and alive.",
+  eyebrow: "What you get",
+  title: "Built around how you actually spend",
+  body: "Merchant, channel and card rules weighed together, so one card is not your answer to everything.",
 };
 
 export const featureRows = {
@@ -145,8 +143,8 @@ export const featureRows = {
       signalTone: "info",
     },
     {
-      title: "Precision Card Vault Logic",
-      microCopy: "Keep recommendations scoped to high-signal card configurations.",
+      title: "Milestones and expiring points",
+      microCopy: "Track spend milestones and points before they expire.",
       statusTag: "Portfolio fit",
       iconKey: "vault",
       badgeTone: "info",
@@ -180,12 +178,12 @@ export const featureRows = {
 
 export const securitySection = {
   eyebrow: "Security and Trust",
-  title: "Trust signals designed into the decision layer",
-  body: "Card Optimizer focuses on recommendation intelligence with transparent, responsible product framing.",
+  title: "Guidance, not guarantees",
+  body: "Card Optimizer recommends a route. It does not make payments for you, and it never promises returns.",
   bullets: [
     "Routing guidance is separated from payment execution paths.",
     "Decision logic is tied to interpretable context and card behavior.",
-    "Claim language avoids guaranteed-return framing.",
+    "We never promise guaranteed returns.",
   ],
   panels: [
     {
@@ -220,6 +218,24 @@ export const faqList = [
     question: "Which spend channels are covered?",
     answer: "Current channel modeling includes online, offline, UPI, and portal routes.",
     tag: "Coverage",
+  },
+  {
+    question: "Does Card Optimizer make payments for me?",
+    answer:
+      "No. Routing guidance is kept separate from payment execution. It tells you which card route to use, and you pay as usual.",
+    tag: "Payments",
+  },
+  {
+    question: "Does Card Optimizer read my email or SMS?",
+    answer:
+      "Only if you choose to. You can connect Gmail with read-only access so card statements can be decoded to track milestones and expiring points, and you can skip this during setup. Bank transaction SMS can be parsed on your phone, with an option to confirm each one before it is saved.",
+    tag: "Your data",
+  },
+  {
+    question: "When can I use it?",
+    answer:
+      "Card Optimizer is still in development. Joining the waitlist means you hear about launch timing first.",
+    tag: "Status",
   },
   {
     question: "What happens after I join the waitlist?",

@@ -1,9 +1,73 @@
+import { useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import SectionIntro from "../ui/SectionIntro";
 import SignalBadge from "../ui/SignalBadge";
 import { valueSection } from "../../content/siteContent";
 
 const EASE = [0.25, 0.1, 0.25, 1.0];
+
+const DEMO_CHANNELS = [
+  { label: "Online", weights: [0.92, 0.58, 0.34] },
+  { label: "Offline", weights: [0.42, 0.9, 0.56] },
+  { label: "UPI", weights: [0.5, 0.34, 0.88] },
+  { label: "Portal", weights: [0.6, 0.95, 0.3] },
+];
+
+function DecisionDemo({ traces, reduceMotion }) {
+  const [active, setActive] = useState(0);
+  const channel = DEMO_CHANNELS[active];
+  const lead = channel.weights.indexOf(Math.max(...channel.weights));
+
+  return (
+    <div className="mt-7">
+      <div role="group" aria-label="Choose a spend channel" className="flex flex-wrap gap-2">
+        {DEMO_CHANNELS.map((item, index) => (
+          <button
+            key={item.label}
+            type="button"
+            aria-pressed={active === index}
+            onClick={() => setActive(index)}
+            className={`min-h-11 rounded-full border px-5 text-sm font-semibold transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white ${
+              active === index
+                ? "border-white bg-white text-black"
+                : "border-white/25 text-white/85 hover:border-white/60"
+            }`}
+          >
+            {item.label}
+          </button>
+        ))}
+      </div>
+
+      <div className="mt-6 space-y-3">
+        {traces.map((trace, index) => (
+          <div key={`trace-${index}`} className="flex items-center gap-3">
+            <span
+              className={`w-16 shrink-0 text-sm uppercase tracking-[0.12em] ${
+                lead === index ? "text-white" : "text-white/55"
+              }`}
+            >
+              path {index + 1}
+            </span>
+            <div className="h-3 flex-1 overflow-hidden rounded-full bg-white/[0.06]">
+              <motion.div
+                className={`h-full w-full origin-left rounded-full bg-gradient-to-r ${trace}`}
+                initial={false}
+                animate={{ scaleX: channel.weights[index], opacity: lead === index ? 1 : 0.55 }}
+                transition={reduceMotion ? { duration: 0 } : { duration: 0.6, ease: EASE }}
+              />
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <p role="status" aria-live="polite" className="mt-5 text-base text-white/85">
+        <span className="font-semibold text-white">{channel.label}:</span> path {lead + 1} leads. Each route
+        comes with its reasoning, not a black-box score.
+      </p>
+      <p className="mt-1 text-sm text-white/60">Illustrative example of the decision view.</p>
+    </div>
+  );
+}
 
 export default function ValueSection() {
   const reduceMotion = useReducedMotion();
@@ -16,9 +80,9 @@ export default function ValueSection() {
         className="pointer-events-none absolute inset-0"
         style={{
           background: [
-            "radial-gradient(ellipse 70% 50% at 20% 20%, rgba(56,189,248,0.10), transparent)",
+            "radial-gradient(ellipse 70% 50% at 20% 20%, rgba(140,82,255,0.12), transparent)",
             "radial-gradient(ellipse 60% 60% at 80% 70%, rgba(139,92,246,0.08), transparent)",
-            "radial-gradient(ellipse 80% 40% at 50% 100%, rgba(34,211,238,0.06), transparent)",
+            "radial-gradient(ellipse 80% 40% at 50% 100%, rgba(140,82,255,0.07), transparent)",
           ].join(", "),
         }}
       />
@@ -31,13 +95,13 @@ export default function ValueSection() {
           viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.6, ease: EASE }}
         >
-          <p className="text-xs uppercase tracking-[0.2em] text-cyan-300/70">
+          <p className="text-sm uppercase tracking-[0.2em] text-[#b49cff]">
             {valueSection.eyebrow}
           </p>
           <h2 className="display-font mt-4 max-w-3xl text-left text-4xl font-bold leading-[1.08] tracking-tight text-white md:text-6xl lg:text-7xl">
             {valueSection.title}
           </h2>
-          <p className="mt-5 max-w-2xl text-left text-lg leading-relaxed text-white/60 md:text-xl">
+          <p className="mt-5 max-w-2xl text-left text-lg leading-relaxed text-white/75 md:text-xl">
             {valueSection.body}
           </p>
         </motion.div>
@@ -93,7 +157,7 @@ export default function ValueSection() {
               />
 
               <div className="relative z-[1]">
-                <p className="text-left text-[10px] uppercase tracking-[0.18em] text-white/45">
+                <p className="text-left text-xs uppercase tracking-[0.18em] text-white/45">
                   {valueSection.decisionPanel.title}
                 </p>
                 <p className="mt-2.5 max-w-2xl text-left text-base leading-relaxed text-white/68">
@@ -114,23 +178,7 @@ export default function ValueSection() {
                   ))}
                 </div>
 
-                {/* Path traces */}
-                <div className="mt-6 space-y-2.5">
-                  {valueSection.decisionPanel.traces.map((trace, index) => (
-                    <div key={`trace-${index}`} className="flex items-center gap-3">
-                      <span className="w-18 shrink-0 text-[10px] uppercase tracking-[0.16em] text-white/42">
-                        path {index + 1}
-                      </span>
-                      <motion.div
-                        className={`h-2.5 flex-1 rounded-full bg-gradient-to-r ${trace}`}
-                        initial={{ scaleX: 0, originX: 0 }}
-                        whileInView={{ scaleX: 1 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.8, delay: 0.2 + index * 0.12, ease: EASE }}
-                      />
-                    </div>
-                  ))}
-                </div>
+                <DecisionDemo traces={valueSection.decisionPanel.traces} reduceMotion={reduceMotion} />
               </div>
             </div>
           </motion.div>
@@ -154,7 +202,7 @@ export default function ValueSection() {
                   <p className="display-font text-left text-lg font-semibold tracking-tight text-white">{item.title}</p>
                   <SignalBadge label={item.badge} tone={index % 2 === 0 ? "info" : "amber"} />
                 </div>
-                <p className="text-left text-sm leading-relaxed text-white/55">{item.body}</p>
+                <p className="text-left text-base leading-relaxed text-white/75">{item.body}</p>
               </div>
             ))}
           </div>

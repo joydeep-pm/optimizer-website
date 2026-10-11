@@ -14,12 +14,12 @@ export default function FaqSection() {
         transition={{ duration: 0.55, ease: EASE }}
         className="text-left"
       >
-        <p className="text-left text-xs uppercase tracking-[0.2em] text-white/55">FAQ</p>
+        <p className="text-left text-sm uppercase tracking-[0.2em] text-[#b49cff]">FAQ</p>
         <h2 className="display-font mt-3 max-w-4xl text-left text-4xl font-bold tracking-tight text-white md:text-6xl">
-          Compact answers for practical pre-join questions
+          Questions before you join
         </h2>
-        <p className="mt-4 max-w-3xl text-left text-base leading-relaxed text-white/72">
-          Scan the key decision points quickly and expand only what you need.
+        <p className="mt-4 max-w-3xl text-left text-lg leading-relaxed text-white/75">
+          Short answers to what people ask first.
         </p>
       </motion.header>
 

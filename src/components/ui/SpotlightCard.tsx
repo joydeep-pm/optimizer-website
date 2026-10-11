@@ -90,7 +90,7 @@ export default function SpotlightCard({
           {badge ? <SignalBadge label={badge} tone={badgeTone} /> : null}
         </div>
 
-        <p className="mt-2 text-left text-base leading-relaxed text-white/72">{body}</p>
+        <p className="mt-2 text-left text-lg leading-relaxed text-white/75">{body}</p>
 
         {children ? <div className={alignFooter ? "mt-auto pt-5" : "mt-4"}>{children}</div> : null}
       </div>
