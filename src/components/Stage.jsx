@@ -243,7 +243,6 @@ export default function Stage() {
 
       <div className="sticky top-0 h-screen overflow-hidden">
         <motion.div style={{ backgroundColor: bg }} className="absolute inset-0" />
-        <MilestoneFill vh={vh} />
 
         <SpendWatermark vh={vh} label={spend.label} />
 
@@ -254,7 +253,7 @@ export default function Stage() {
         </div>
 
         <Scene index={0} vh={vh} active={active} onMeasure={onMeasure} className="items-end lg:items-center">
-          <div className="w-full lg:w-[56%]">
+          <div className="w-full lg:w-[46%]">
             <p className="label text-ink/70">[01] {hero.eyebrow}</p>
             <h1
               aria-label={hero.headline}
@@ -290,7 +289,7 @@ export default function Stage() {
         </Scene>
 
         <Scene index={1} vh={vh} active={active} onMeasure={onMeasure} className="items-end lg:items-center">
-          <div className="w-full text-white lg:w-[56%]">
+          <div className="w-full text-white lg:w-[46%]">
             <p className="label text-white/80">[02] The swipe</p>
             <p className="label mt-4 text-white/80">I am paying for</p>
             <div className="relative mt-1 h-[3rem] overflow-hidden md:h-[5.4rem]">
@@ -356,7 +355,7 @@ export default function Stage() {
         </Scene>
 
         <Scene index={4} vh={vh} active={active} onMeasure={onMeasure} className="items-end lg:items-center">
-          <div className="w-full text-white lg:w-[50%]">
+          <div className="w-full text-white lg:w-[46%]">
             <p className="label text-white/80">[05] Early access</p>
             <h2 className="display-font mt-2 text-balance text-4xl font-bold leading-[0.98] tracking-[-0.03em] md:text-7xl">
               Be first to know which card to swipe.

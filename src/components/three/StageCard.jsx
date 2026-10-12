@@ -14,12 +14,8 @@ const smooth = (a, b, x) => {
 };
 
 const DESKTOP = [
-  [0, { fx: 0.43, fy: 0, s: 1.2 }],
-  [420, { fx: 0.43, fy: 0, s: 1.2 }],
-  [480, { fx: 0.43, fy: 0.02, s: 1.15 }],
-  [596, { fx: 0.43, fy: 0.02, s: 1.15 }],
-  [660, { fx: 0.43, fy: 0, s: 1.1 }],
-  [960, { fx: 0.43, fy: 0, s: 1.1 }],
+  [0, { fx: 0.4, fy: 0, s: 1.05 }],
+  [960, { fx: 0.4, fy: 0, s: 1.05 }],
 ];
 
 function poseAt(table, vh) {
@@ -50,8 +46,8 @@ function topAt(tops, vh) {
 }
 
 function flipAt(vh) {
-  if (vh <= 800) return PI * smooth(596, 660, vh);
-  return PI * (1 - smooth(800, 860, vh));
+  if (vh <= 840) return PI * smooth(640, 690, vh);
+  return PI * (1 - smooth(850, 890, vh));
 }
 
 function CardMesh({ texture, back, setRef }) {
@@ -129,6 +125,8 @@ function Deck({ stateRef, winners, urls, pickRange, onReady }) {
       const prev = o[0];
       o[0] = winner;
       o[at] = prev;
+      cur.current[prev].x = -0.32;
+      cur.current[prev].z = 0.12;
       lastWinner.current = winner;
     }
 
