@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { useRef } from "react";
+import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { carouselCards, moments } from "../content/siteContent";
 
 const EASE = [0.16, 1, 0.3, 1];
@@ -87,41 +88,58 @@ function DataVisual() {
 
 const VISUALS = [PickVisual, MilestoneVisual, DataVisual];
 
+function Numeral({ children, scrollTarget }) {
+  const reduceMotion = useReducedMotion();
+  const { scrollYProgress } = useScroll({ target: scrollTarget, offset: ["start end", "end start"] });
+  const y = useTransform(scrollYProgress, [0, 1], reduceMotion ? [0, 0] : [70, -70]);
+  return (
+    <motion.p
+      style={{ y }}
+      className="display-font text-[clamp(5rem,14vw,11rem)] font-bold leading-[0.8] tracking-[-0.05em] text-violet"
+    >
+      {children}
+    </motion.p>
+  );
+}
+
+function Moment({ moment, index }) {
+  const Visual = VISUALS[index];
+  const flip = index % 2 === 1;
+  const ref = useRef(null);
+  return (
+    <motion.article
+      ref={ref}
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.25 }}
+      transition={{ duration: 0.7, ease: EASE }}
+      className="grid gap-8 border-t border-ink/15 py-12 lg:grid-cols-12 lg:gap-12 lg:py-16"
+    >
+      <div className={`lg:col-span-5 ${flip ? "lg:order-2" : ""}`}>
+        <Numeral scrollTarget={ref}>{moment.n}</Numeral>
+        <p className="label mt-6 text-ink/70">{moment.kicker}</p>
+        <h2 className="display-font mt-3 text-balance text-4xl font-bold leading-[1.02] tracking-tight md:text-6xl">
+          {moment.title}
+        </h2>
+        <p className="mt-5 max-w-md text-lg leading-relaxed text-ink/75">{moment.body}</p>
+      </div>
+      <div className={`lg:col-span-7 ${flip ? "lg:order-1" : ""}`}>
+        <div className="min-h-[320px] rounded-[2rem] bg-ink p-6 text-white md:min-h-[400px] md:p-9">
+          <Visual />
+        </div>
+      </div>
+    </motion.article>
+  );
+}
+
 export default function Moments() {
   return (
     <section id="moments" className="mx-auto w-full max-w-[1320px] px-4 py-16 md:px-8 md:py-28">
-      <p className="label text-ink/70">[02] Three moments</p>
+      <p className="label text-ink/70">[03] Three moments</p>
       <div className="mt-8">
-        {moments.map((moment, index) => {
-          const Visual = VISUALS[index];
-          const flip = index % 2 === 1;
-          return (
-            <motion.article
-              key={moment.n}
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.25 }}
-              transition={{ duration: 0.7, ease: EASE }}
-              className="grid gap-8 border-t border-ink/15 py-12 lg:grid-cols-12 lg:gap-12 lg:py-16"
-            >
-              <div className={`lg:col-span-5 ${flip ? "lg:order-2" : ""}`}>
-                <p className="display-font text-[clamp(5rem,14vw,11rem)] font-bold leading-[0.8] tracking-[-0.05em] text-violet">
-                  {moment.n}
-                </p>
-                <p className="label mt-6 text-ink/70">{moment.kicker}</p>
-                <h2 className="display-font mt-3 text-balance text-4xl font-bold leading-[1.02] tracking-tight md:text-6xl">
-                  {moment.title}
-                </h2>
-                <p className="mt-5 max-w-md text-lg leading-relaxed text-ink/75">{moment.body}</p>
-              </div>
-              <div className={`lg:col-span-7 ${flip ? "lg:order-1" : ""}`}>
-                <div className="min-h-[320px] rounded-[2rem] bg-ink p-6 text-white md:min-h-[400px] md:p-9">
-                  <Visual />
-                </div>
-              </div>
-            </motion.article>
-          );
-        })}
+        {moments.map((moment, index) => (
+          <Moment key={moment.n} moment={moment} index={index} />
+        ))}
       </div>
     </section>
   );

@@ -10,7 +10,7 @@ export default function FinalCtaSection() {
           className="pointer-events-none absolute -right-24 -top-24 h-[30rem] w-[30rem] rounded-full bg-white/20 blur-3xl"
         />
         <div className="relative">
-          <p className="label text-white/90">[05] Early access</p>
+          <p className="label text-white/90">[06] Early access</p>
           <h2 className="display-font mt-5 max-w-5xl text-balance text-5xl font-bold leading-[0.95] tracking-[-0.03em] md:text-8xl">
             Be first to know which card to swipe.
           </h2>

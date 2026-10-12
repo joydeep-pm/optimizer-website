@@ -2,6 +2,7 @@ import { motion, useScroll, useSpring } from "framer-motion";
 import Nav from "./components/Nav";
 import Hero from "./components/Hero";
 import Marquee from "./components/Marquee";
+import SwipeScene from "./components/SwipeScene";
 import Moments from "./components/Moments";
 import SecuritySection from "./components/sections/SecuritySection";
 import FaqSection from "./components/sections/FaqSection";
@@ -29,6 +30,7 @@ export default function App() {
       <main id="main">
         <Hero />
         <Marquee />
+        <SwipeScene />
         <Moments />
         <SecuritySection />
         <FaqSection />

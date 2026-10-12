@@ -66,6 +66,12 @@ export default function CardFanPicker() {
         onPointerLeave={resetTilt}
       >
         <motion.div className="absolute inset-0" style={{ rotateX: tiltX, rotateY: tiltY, transformStyle: "preserve-3d" }}>
+        <motion.div
+          className="absolute inset-0"
+          style={{ transformStyle: "preserve-3d" }}
+          animate={reduceMotion ? undefined : { y: [0, -7, 0] }}
+          transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+        >
         {carouselCards.map((card, index) => {
           const isWinner = index === spend.winner;
           const base = FAN[index];
@@ -88,6 +94,7 @@ export default function CardFanPicker() {
             />
           );
         })}
+        </motion.div>
         </motion.div>
       </div>
 

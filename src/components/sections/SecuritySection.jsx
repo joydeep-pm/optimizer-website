@@ -55,7 +55,7 @@ export default function SecuritySection() {
         transition={{ duration: 0.55, ease: EASE }}
         className="text-left"
       >
-        <p className="label text-violet-soft">[03] {trustLedger.eyebrow}</p>
+        <p className="label text-violet-soft">[04] {trustLedger.eyebrow}</p>
         <h2 className="display-font mt-3 max-w-4xl text-balance text-4xl font-bold tracking-tight text-white md:text-8xl">
           {trustLedger.title}
         </h2>
