@@ -5,7 +5,7 @@ export const navLinks = [
   { label: "Product", href: "#product" },
   { label: "How it Works", href: "#how-it-works" },
   { label: "Features", href: "#features" },
-  { label: "Security", href: "#security" },
+  { label: "Your data", href: "#your-data" },
   { label: "FAQ", href: "#faq" },
 ];
 
@@ -33,18 +33,18 @@ export const carouselCards = [
 ];
 
 export const hero = {
-  eyebrow: "Credit Card Co-Pilot for Premium Users in India",
+  eyebrow: "For premium credit card users in India",
   headline: "Turn Every Swipe Into Smarter Reward Yield",
   subheadline:
-    "Tell it where you are spending and how you are paying. Card Optimizer shows which of your cards to use, and why.",
+    "Tell it where you are spending and how you are paying. Card Co-Pilot shows which of your cards to use, and why.",
   secondaryCtaLabel: "See How It Works",
   secondaryCtaHref: "#how-it-works",
 };
 
 export const valueSection = {
-  eyebrow: "Why Card Optimizer",
+  eyebrow: "Why Card Co-Pilot",
   title: "Know which card to use before you pay.",
-  body: "Most people default to one card for everything. Card Optimizer weighs the merchant, the channel and each card's reward rules so the better route is obvious.",
+  body: "Most people default to one card for everything. Card Co-Pilot weighs the merchant, the channel and each card's reward rules so the better route is obvious.",
   signalLabel: "Try it",
   decisionPanel: {
     title: "Decision Canvas",
@@ -176,34 +176,49 @@ export const featureRows = {
   },
 };
 
-export const securitySection = {
-  eyebrow: "Security and Trust",
-  title: "Guidance, not guarantees",
-  body: "Card Optimizer recommends a route. It does not make payments for you, and it never promises returns.",
-  bullets: [
-    "Routing guidance is separated from payment execution paths.",
-    "Decision logic is tied to interpretable context and card behavior.",
-    "We never promise guaranteed returns.",
-  ],
-  panels: [
-    {
-      title: "Transparent Logic Signals",
-      point: "Each recommendation is tied to context clues users can inspect.",
-      signalType: "trace",
-      tag: "Trace",
-    },
-    {
-      title: "Responsible Policy Framing",
-      point: "Guidance is designed around issuer variability and evolving terms.",
-      signalType: "policy",
-      tag: "Policy",
-    },
-  ],
+export const trustLedger = {
+  eyebrow: "Your data",
+  title: "What it reads, and what it never does",
+  body: "Card Co-Pilot is still in development. This is how it is planned to work, and details may change before launch.",
+  reads: {
+    heading: "What it reads",
+    items: [
+      {
+        title: "The cards you add and the merchants you search",
+        note: "So it can recommend from the cards you actually hold.",
+        tag: "Core",
+      },
+      {
+        title: "Gmail, read-only",
+        note: "Only if you connect it, and you can skip it during setup. Used to decode card statements so milestones and expiring points can be tracked.",
+        tag: "Optional, planned",
+      },
+      {
+        title: "Bank transaction SMS",
+        note: "Only if you turn it on, where your phone supports it. Parsed on your phone, with an option to confirm each one before it is saved.",
+        tag: "Optional, planned",
+      },
+    ],
+  },
+  never: {
+    heading: "What it never does",
+    items: [
+      {
+        title: "Make payments for you",
+        note: "Routing guidance is kept separate from payment execution. You pay as usual.",
+      },
+      {
+        title: "Promise returns",
+        note: "Rewards depend on issuer terms, caps and exclusions that change over time.",
+      },
+    ],
+  },
+  privacyLabel: "Read the privacy notice",
 };
 
 export const faqList = [
   {
-    question: "How does Card Optimizer choose a recommendation?",
+    question: "How does Card Co-Pilot choose a recommendation?",
     answer:
       "Recommendations blend merchant context, channel intent, and rule-aware card behavior into one route suggestion.",
     tag: "Decision logic",
@@ -220,13 +235,13 @@ export const faqList = [
     tag: "Coverage",
   },
   {
-    question: "Does Card Optimizer make payments for me?",
+    question: "Does Card Co-Pilot make payments for me?",
     answer:
       "No. Routing guidance is kept separate from payment execution. It tells you which card route to use, and you pay as usual.",
     tag: "Payments",
   },
   {
-    question: "Does Card Optimizer read my email or SMS?",
+    question: "Does Card Co-Pilot read my email or SMS?",
     answer:
       "Only if you choose to. You can connect Gmail with read-only access so card statements can be decoded to track milestones and expiring points, and you can skip this during setup. Bank transaction SMS can be parsed on your phone, with an option to confirm each one before it is saved.",
     tag: "Your data",
@@ -234,7 +249,7 @@ export const faqList = [
   {
     question: "When can I use it?",
     answer:
-      "Card Optimizer is still in development. Joining the waitlist means you hear about launch timing first.",
+      "Card Co-Pilot is still in development. Joining the waitlist means you hear about launch timing first.",
     tag: "Status",
   },
   {

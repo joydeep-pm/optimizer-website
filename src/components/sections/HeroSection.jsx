@@ -59,10 +59,10 @@ export default function HeroSection() {
         <div className="mx-auto flex w-full max-w-[1240px] items-center justify-between rounded-full border border-white/10 bg-black/35 px-4 py-2.5 backdrop-blur-xl">
           <a href="#top" className="flex min-h-11 items-center gap-2">
             <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-white/90 text-xs font-bold text-black">
-              CO
+              CP
             </span>
             <span className="display-font text-sm font-semibold tracking-wide text-white">
-              Card Optimizer
+              Card Co-Pilot
             </span>
           </a>
 

@@ -7,9 +7,9 @@ export default function SiteFooter() {
         <div>
           <a href="#top" className="inline-flex min-h-11 items-center gap-2">
             <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-white text-xs font-bold text-black">
-              CO
+              CP
             </span>
-            <span className="display-font text-base font-semibold text-white">Card Optimizer</span>
+            <span className="display-font text-base font-semibold text-white">Card Co-Pilot</span>
           </a>
           <p className="mt-2 max-w-sm text-sm text-white/65">
             Know which card to use before you pay. Built for premium card holders in India.
@@ -24,7 +24,12 @@ export default function SiteFooter() {
         </nav>
       </div>
       <p className="mt-8 text-xs text-white/60">{disclaimer}</p>
-      <p className="mt-2 text-xs text-white/50">&copy; 2026 Card Optimizer. aashlabs.in</p>
+      <p className="mt-2 text-xs text-white/60">
+        Card Co-Pilot is in development. &copy; 2026 aashlabs.in{" "}
+        <a href="/privacy/" className="underline underline-offset-2 hover:text-white">
+          Privacy notice
+        </a>
+      </p>
     </footer>
   );
 }

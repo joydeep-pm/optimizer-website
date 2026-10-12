@@ -1,62 +1,52 @@
 import { motion } from "framer-motion";
-import { disclaimer, securitySection } from "../../content/siteContent";
+import { disclaimer, trustLedger } from "../../content/siteContent";
 
 const EASE = [0.25, 0.1, 0.25, 1.0];
 
-function signalLabel(signalType) {
-  if (signalType === "trace") return "Trace";
-  if (signalType === "policy") return "Policy";
-  return "Signal";
-}
+function LedgerColumn({ heading, items, variant, delay }) {
+  const isReads = variant === "reads";
 
-function signalGlyph(signalType) {
-  if (signalType === "trace") return "02";
-  if (signalType === "policy") return "03";
-  return "01";
-}
-
-function DividerLane({ title, body, signalType, delay = 0, withDivider = false }) {
   return (
-    <motion.article
+    <motion.div
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.35 }}
+      viewport={{ once: true, amount: 0.25 }}
       transition={{ duration: 0.55, delay, ease: EASE }}
-      className="relative text-left lg:pl-8"
+      className={`rounded-3xl border p-6 md:p-8 ${
+        isReads ? "border-white/15 bg-white/[0.03]" : "border-[#8c52ff]/50 bg-[#8c52ff]/[0.08]"
+      }`}
     >
-      {withDivider ? (
-        <motion.span
-          aria-hidden="true"
-          className="absolute left-0 top-0 hidden h-full w-px origin-top bg-gradient-to-b from-[#8c52ff] via-white/30 to-transparent lg:block"
-          initial={{ opacity: 0, scaleY: 0 }}
-          whileInView={{ opacity: 1, scaleY: 1 }}
-          viewport={{ once: true, amount: 0.4 }}
-          transition={{ duration: 0.55, delay: delay + 0.05, ease: EASE }}
-        />
-      ) : null}
-
-      <div className="mb-4 flex items-center justify-between gap-3">
-        <span className="display-font text-6xl font-bold leading-none text-[#8c52ff]">
-          {signalGlyph(signalType)}
-        </span>
-        <span className="text-sm uppercase tracking-[0.14em] text-white/70">{signalLabel(signalType)}</span>
-      </div>
-
-      <h3 className="display-font text-left text-3xl font-semibold tracking-tight text-white">{title}</h3>
-      <p className="mt-3 max-w-md text-left text-lg leading-relaxed text-white/75">{body}</p>
-    </motion.article>
+      <h3 className="display-font text-3xl font-bold tracking-tight text-white md:text-4xl">{heading}</h3>
+      <ul className="mt-6 divide-y divide-white/12">
+        {items.map((item) => (
+          <li key={item.title} className="flex gap-4 py-5 first:pt-0 last:pb-0">
+            <span
+              aria-hidden="true"
+              className={`mt-1 flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-sm font-bold ${
+                isReads ? "bg-white/10 text-white" : "bg-[#8c52ff] text-white"
+              }`}
+            >
+              {isReads ? "→" : "✕"}
+            </span>
+            <div>
+              <p className="text-xl font-semibold text-white">{item.title}</p>
+              <p className="mt-2 text-base leading-relaxed text-white/75">{item.note}</p>
+              {item.tag ? (
+                <span className="mt-3 inline-flex rounded-full border border-white/25 px-3 py-1 text-xs font-semibold uppercase tracking-[0.12em] text-white/80">
+                  {item.tag}
+                </span>
+              ) : null}
+            </div>
+          </li>
+        ))}
+      </ul>
+    </motion.div>
   );
 }
 
 export default function SecuritySection() {
-  const firstPanel = {
-    title: "Trust by Design",
-    body: securitySection.bullets.join(" "),
-    signalType: "shield",
-  };
-
   return (
-    <section id="security" className="mx-auto w-full max-w-[1240px] px-4 py-14 md:px-8 md:py-20">
+    <section id="your-data" className="mx-auto w-full max-w-[1240px] px-4 py-14 md:px-8 md:py-24">
       <motion.header
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -64,49 +54,27 @@ export default function SecuritySection() {
         transition={{ duration: 0.55, ease: EASE }}
         className="text-left"
       >
-        <p className="text-left text-sm uppercase tracking-[0.2em] text-[#b49cff]">
-          {securitySection.eyebrow}
-        </p>
-        <h2 className="display-font mt-3 max-w-4xl text-left text-4xl font-bold tracking-tight text-white md:text-6xl">
-          {securitySection.title}
+        <p className="text-sm uppercase tracking-[0.2em] text-[#b49cff]">{trustLedger.eyebrow}</p>
+        <h2 className="display-font mt-3 max-w-4xl text-balance text-4xl font-bold tracking-tight text-white md:text-6xl">
+          {trustLedger.title}
         </h2>
-        <p className="mt-4 max-w-3xl text-left text-lg leading-relaxed text-white/75">
-          {securitySection.body}
-        </p>
+        <p className="mt-4 max-w-3xl text-lg leading-relaxed text-white/75">{trustLedger.body}</p>
       </motion.header>
 
-      <div className="mt-10 grid gap-8 lg:grid-cols-12">
-        <div className="lg:col-span-4">
-          <DividerLane
-            title={firstPanel.title}
-            body={firstPanel.body}
-            signalType={firstPanel.signalType}
-            delay={0}
-          />
-        </div>
-
-        {securitySection.panels.map((item, index) => (
-          <div key={item.title} className="lg:col-span-4">
-            <DividerLane
-              title={item.title}
-              body={item.point}
-              signalType={item.signalType}
-              delay={0.05 * (index + 1)}
-              withDivider
-            />
-          </div>
-        ))}
+      <div className="mt-10 grid gap-6 lg:grid-cols-2">
+        <LedgerColumn heading={trustLedger.reads.heading} items={trustLedger.reads.items} variant="reads" delay={0} />
+        <LedgerColumn heading={trustLedger.never.heading} items={trustLedger.never.items} variant="never" delay={0.08} />
       </div>
 
-      <motion.p
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.5 }}
-        transition={{ duration: 0.55, delay: 0.15, ease: EASE }}
-        className="mt-10 border-t border-white/12 pt-4 text-left text-sm text-white/62"
-      >
-        {disclaimer}
-      </motion.p>
+      <div className="mt-8 flex flex-col gap-3 border-t border-white/12 pt-6 sm:flex-row sm:items-center sm:justify-between">
+        <p className="text-sm text-white/65">{disclaimer}</p>
+        <a
+          href="/privacy/"
+          className="inline-flex min-h-11 items-center rounded-full border border-white/30 px-6 text-sm font-semibold text-white transition hover:border-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+        >
+          {trustLedger.privacyLabel}
+        </a>
+      </div>
     </section>
   );
 }

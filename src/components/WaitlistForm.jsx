@@ -117,7 +117,10 @@ export default function WaitlistForm({
       </form>
 
       <p className={`mt-3 text-sm ${tone === "brand" ? "text-white/95" : "text-white/70"}`}>
-        Your email is used only to send launch updates and onboarding instructions.
+        Your email is used only to send launch updates and onboarding instructions.{" "}
+        <a href="/privacy/" className="underline underline-offset-2 hover:text-white">
+          Privacy notice
+        </a>
       </p>
 
       <div id={`${uid}-msg`} role="status" aria-live="polite">
