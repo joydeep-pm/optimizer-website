@@ -162,9 +162,9 @@ export default function Experience({ progress }: ExperienceProps) {
 
   const cards = useMemo(() => {
     const defaults = [
-      { id: "hsbc", name: "HSBC Premier", textureUrl: "", edgeColor: "#1a1f3a" },
-      { id: "icici", name: "ICICI Emeralde", textureUrl: "", edgeColor: "#1a3a3a" },
-      { id: "axis", name: "Axis Atlas", textureUrl: "", edgeColor: "#111111" },
+      { id: "travel", name: "Premium Travel", textureUrl: "", edgeColor: "#1a1f3a" },
+      { id: "metal", name: "Metal Rewards", textureUrl: "", edgeColor: "#1a3a3a" },
+      { id: "cashback", name: "Everyday Cashback", textureUrl: "", edgeColor: "#111111" },
     ];
 
     const merged = defaults.map((item, index) => ({
@@ -285,7 +285,7 @@ export default function Experience({ progress }: ExperienceProps) {
         })}
       </group>
 
-      <Environment preset="city" />
+      <Environment files="/hdr/city.hdr" />
     </>
   );
 }

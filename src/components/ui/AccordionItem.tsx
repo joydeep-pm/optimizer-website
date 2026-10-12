@@ -27,10 +27,10 @@ export default function AccordionItem({
         className="flex w-full items-center justify-between gap-4 px-0 py-4 text-left outline-none focus-visible:ring-2 focus-visible:ring-cyan-300/60"
         aria-expanded={isOpen}
       >
-        <span className="pr-3 text-left text-2xl font-semibold leading-tight text-white">{question}</span>
+        <span className="pr-3 text-left text-lg font-semibold leading-tight text-white md:text-2xl">{question}</span>
 
         <div className="flex shrink-0 items-center gap-3">
-          <span className="rounded-full border border-white/20 px-3 py-1 text-xs uppercase tracking-[0.12em] text-white/72">
+          <span className="hidden rounded-full border border-white/20 px-3 py-1 text-xs sm:inline-flex uppercase tracking-[0.12em] text-white/72">
             {tag}
           </span>
           <motion.svg
@@ -58,7 +58,7 @@ export default function AccordionItem({
             transition={{ duration: 0.35, ease: EASE }}
             className="overflow-hidden"
           >
-            <p className="pb-4 text-left text-base leading-relaxed text-white/72">{answer}</p>
+            <p className="pb-4 text-left text-lg leading-relaxed text-white/75">{answer}</p>
           </motion.div>
         ) : null}
       </AnimatePresence>

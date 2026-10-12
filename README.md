@@ -1,6 +1,6 @@
-# Wealth Hero — Card Optimizer Landing Page
+# Card Co-Pilot Landing Page
 
-A premium landing page for **Card Optimizer**, a credit card co-pilot for premium users in India. The app helps users route spend through the right card, channel, and merchant path to maximize reward yield across an 8-card portfolio.
+A premium landing page for **Card Co-Pilot**, a credit card assistant for premium users in India. The app helps users route spend through the right card, channel, and merchant path to maximize reward yield across an 8-card portfolio.
 
 ## Live Sections
 
