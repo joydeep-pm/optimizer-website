@@ -46,7 +46,8 @@ function LedgerColumn({ heading, items, variant, delay }) {
 
 export default function SecuritySection() {
   return (
-    <section id="your-data" className="mx-auto w-full max-w-[1240px] px-4 py-14 md:px-8 md:py-24">
+    <section id="your-data" className="bg-ink text-white">
+      <div className="mx-auto w-full max-w-[1320px] px-4 py-16 md:px-8 md:py-28">
       <motion.header
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -54,8 +55,8 @@ export default function SecuritySection() {
         transition={{ duration: 0.55, ease: EASE }}
         className="text-left"
       >
-        <p className="text-sm uppercase tracking-[0.2em] text-[#b49cff]">{trustLedger.eyebrow}</p>
-        <h2 className="display-font mt-3 max-w-4xl text-balance text-4xl font-bold tracking-tight text-white md:text-6xl">
+        <p className="label text-violet-soft">[03] {trustLedger.eyebrow}</p>
+        <h2 className="display-font mt-3 max-w-4xl text-balance text-4xl font-bold tracking-tight text-white md:text-8xl">
           {trustLedger.title}
         </h2>
         <p className="mt-4 max-w-3xl text-lg leading-relaxed text-white/75">{trustLedger.body}</p>
@@ -74,6 +75,7 @@ export default function SecuritySection() {
         >
           {trustLedger.privacyLabel}
         </a>
+      </div>
       </div>
     </section>
   );

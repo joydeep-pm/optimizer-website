@@ -1,44 +1,60 @@
-import { motion } from "framer-motion";
-import AccordionItem from "../ui/AccordionItem";
+import { useState } from "react";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { faqList } from "../../content/siteContent";
 
-const EASE = [0.25, 0.1, 0.25, 1.0];
+function Row({ index, item }) {
+  const [open, setOpen] = useState(index === 0);
+  const reduceMotion = useReducedMotion();
+
+  return (
+    <div className="border-t border-ink/15">
+      <h3>
+        <button
+          type="button"
+          aria-expanded={open}
+          onClick={() => setOpen((v) => !v)}
+          className="flex min-h-11 w-full items-start gap-4 py-6 text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink md:gap-8"
+        >
+          <span className="label mt-2 w-8 shrink-0 text-ink/60">{String(index + 1).padStart(2, "0")}</span>
+          <span className="display-font flex-1 text-xl font-bold leading-snug md:text-3xl">{item.question}</span>
+          <span
+            aria-hidden="true"
+            className={`mt-1 flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-ink/30 text-xl transition ${
+              open ? "rotate-45 bg-ink text-white" : ""
+            }`}
+          >
+            +
+          </span>
+        </button>
+      </h3>
+      <AnimatePresence initial={false}>
+        {open ? (
+          <motion.div
+            key="a"
+            initial={reduceMotion ? false : { height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={reduceMotion ? { opacity: 0 } : { height: 0, opacity: 0 }}
+            transition={{ duration: 0.35 }}
+            className="overflow-hidden"
+          >
+            <p className="max-w-2xl pb-7 pl-12 text-lg leading-relaxed text-ink/75 md:pl-20">{item.answer}</p>
+          </motion.div>
+        ) : null}
+      </AnimatePresence>
+    </div>
+  );
+}
 
 export default function FaqSection() {
   return (
-    <section id="faq" className="mx-auto w-full max-w-[1240px] px-4 py-14 md:px-8 md:py-20">
-      <motion.header
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.4 }}
-        transition={{ duration: 0.55, ease: EASE }}
-        className="text-left"
-      >
-        <p className="text-left text-sm uppercase tracking-[0.2em] text-[#b49cff]">FAQ</p>
-        <h2 className="display-font mt-3 max-w-4xl text-left text-4xl font-bold tracking-tight text-white md:text-6xl">
-          Questions before you join
-        </h2>
-        <p className="mt-4 max-w-3xl text-left text-lg leading-relaxed text-white/75">
-          Short answers to what people ask first.
-        </p>
-      </motion.header>
-
-      <div className="mt-8 border-t border-white/14">
+    <section id="faq" className="mx-auto w-full max-w-[1320px] px-4 py-16 md:px-8 md:py-28">
+      <p className="label text-ink/70">[04] Questions</p>
+      <h2 className="display-font mt-4 max-w-4xl text-balance text-5xl font-bold leading-[0.98] tracking-tight md:text-8xl">
+        Questions before you join
+      </h2>
+      <div className="mt-12 border-b border-ink/15">
         {faqList.map((item, index) => (
-          <motion.div
-            key={item.question}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.4 }}
-            transition={{ duration: 0.55, delay: index * 0.05, ease: EASE }}
-          >
-            <AccordionItem
-              question={item.question}
-              answer={item.answer}
-              tag={item.tag}
-              defaultOpen={index === 0}
-            />
-          </motion.div>
+          <Row key={item.question} index={index} item={item} />
         ))}
       </div>
     </section>

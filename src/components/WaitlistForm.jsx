@@ -66,8 +66,37 @@ export default function WaitlistForm({
   }
 
   const isHero = variant === "hero";
-  const inputClass =
-    "h-12 rounded-xl border border-white/25 bg-white/[0.06] px-3 text-base text-white placeholder:text-white/60 focus:border-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white/70";
+  const tones = {
+    light: {
+      form: "border-ink/15 bg-white",
+      input:
+        "border-ink/20 bg-white text-ink placeholder:text-ink/55 focus:border-ink focus-visible:ring-2 focus-visible:ring-violet",
+      button: "bg-ink text-white focus-visible:outline-ink",
+      note: "text-ink/70",
+      error: "text-red-700",
+      success: "text-emerald-700",
+    },
+    brand: {
+      form: "border-white/30 bg-black/25",
+      input:
+        "border-white/30 bg-white/10 text-white placeholder:text-white/70 focus:border-white focus-visible:ring-2 focus-visible:ring-white/70",
+      button: "bg-white text-ink focus-visible:outline-white",
+      note: "text-white/95",
+      error: "text-white",
+      success: "text-white",
+    },
+    dark: {
+      form: "border-white/20 bg-black/55",
+      input:
+        "border-white/25 bg-white/[0.06] text-white placeholder:text-white/60 focus:border-white focus-visible:ring-2 focus-visible:ring-white/70",
+      button: "bg-white text-black focus-visible:outline-white",
+      note: "text-white/70",
+      error: "text-red-300",
+      success: "text-emerald-300",
+    },
+  };
+  const t = tones[tone] ?? tones.dark;
+  const inputClass = `h-12 min-w-0 rounded-xl border px-3 text-base focus:outline-none ${t.input}`;
 
   return (
     <div className={isHero ? "w-full max-w-3xl" : "w-full max-w-xl"}>
@@ -76,8 +105,8 @@ export default function WaitlistForm({
         noValidate
         className={
           isHero
-            ? "grid gap-3 rounded-2xl border border-white/20 bg-black/55 p-3 backdrop-blur-xl md:grid-cols-[1fr_1.2fr_auto]"
-            : "grid gap-3 rounded-2xl border border-white/20 bg-black/55 p-4 backdrop-blur-xl md:grid-cols-2"
+            ? `grid gap-3 rounded-2xl border p-3 sm:grid-cols-2 ${t.form}`
+            : `grid gap-3 rounded-2xl border p-4 md:grid-cols-2 ${t.form}`
         }
       >
         <label htmlFor={`${uid}-name`} className="sr-only">
@@ -110,13 +139,13 @@ export default function WaitlistForm({
         <button
           type="submit"
           disabled={isSubmitting}
-          className="h-12 rounded-xl bg-white px-5 text-base font-semibold text-black transition hover:scale-[1.02] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white disabled:cursor-not-allowed disabled:opacity-70"
+          className={`h-12 whitespace-nowrap rounded-xl px-5 sm:col-span-2 text-base font-semibold transition hover:scale-[1.02] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-70 ${t.button}`}
         >
           {isSubmitting ? "Submitting..." : buttonLabel}
         </button>
       </form>
 
-      <p className={`mt-3 text-sm ${tone === "brand" ? "text-white/95" : "text-white/70"}`}>
+      <p className={`mt-3 text-sm ${t.note}`}>
         Your email is used only to send launch updates and onboarding instructions.{" "}
         <a href="/privacy/" className="underline underline-offset-2 hover:text-white">
           Privacy notice
@@ -124,9 +153,9 @@ export default function WaitlistForm({
       </p>
 
       <div id={`${uid}-msg`} role="status" aria-live="polite">
-        {error ? <p className={`mt-2 text-sm font-medium ${tone === "brand" ? "text-white" : "text-red-300"}`}>{error}</p> : null}
+        {error ? <p className={`mt-2 text-sm font-medium ${t.error}`}>{error}</p> : null}
         {isSuccess ? (
-          <p className={`mt-2 text-sm font-medium ${tone === "brand" ? "text-white" : "text-emerald-300"}`}>
+          <p className={`mt-2 text-sm font-medium ${t.success}`}>
             Thanks{joinedName ? ` ${joinedName}` : ""}, you are on the waitlist.
           </p>
         ) : null}

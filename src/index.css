@@ -1,5 +1,14 @@
-@import url("https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600&family=Space+Grotesk:wght@500;700&family=Space+Mono:wght@400;700&display=swap");
 @import "tailwindcss";
+
+@theme {
+  --color-bone: #f4f1ea;
+  --color-paper: #fbfaf6;
+  --color-ink: #0b0b0f;
+  --color-violet: #8c52ff;
+  --color-violet-soft: #c4b0ff;
+  --font-mono: "Space Mono", ui-monospace, SFMono-Regular, monospace;
+}
 
 * {
   box-sizing: border-box;
@@ -7,17 +16,17 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 5.5rem;
+  scroll-padding-top: 5rem;
 }
 
 html,
 body {
-  overflow-x: clip;
   margin: 0;
   padding: 0;
   min-height: 100vh;
-  background: #020202;
-  color: #fff;
+  overflow-x: clip;
+  background: #f4f1ea;
+  color: #0b0b0f;
   font-family: "Sora", "Segoe UI", sans-serif;
 }
 
@@ -29,118 +38,34 @@ body {
   font-family: "Space Grotesk", "Sora", sans-serif;
 }
 
-.baseline-intro {
-  max-width: 62rem;
+.label {
+  font-family: "Space Mono", ui-monospace, monospace;
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
-.hover-glow {
-  transform: translateY(0) scale(1);
-  transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease,
-    background-color 220ms ease;
-}
-
-.hover-glow:hover {
-  transform: translateY(-3px) scale(1.01);
-  border-color: rgba(125, 211, 252, 0.32);
-  background-color: rgba(8, 13, 24, 0.72);
-  box-shadow: 0 12px 28px rgba(2, 8, 23, 0.36), 0 0 0 1px rgba(103, 232, 249, 0.12) inset;
-}
-
-.reveal-up {
-  opacity: 0;
-  transform: translateY(10px);
-  animation: reveal-up 560ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-}
-
-.flow-trace {
-  position: absolute;
-  left: -30%;
-  top: 0;
-  bottom: 0;
-  width: 40%;
-  background: linear-gradient(90deg, transparent, rgba(56, 189, 248, 0.42), transparent);
-  animation: flow-trace 2.2s linear infinite;
-}
-
-.motion-value-parallax {
-  animation: value-parallax 9s ease-in-out infinite;
-}
-
-.motion-timeline-fill {
-  animation: timeline-pulse 2.6s ease-in-out infinite;
-}
-
-.motion-accordion {
-  transition: border-color 200ms ease, background-color 200ms ease;
-}
-
-.motion-accordion:hover {
-  border-color: rgba(125, 211, 252, 0.28);
-  background: rgba(4, 10, 24, 0.72);
-}
-
-@keyframes reveal-up {
-  0% {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes flow-trace {
-  0% {
+@keyframes marquee {
+  from {
     transform: translateX(0);
   }
-  100% {
-    transform: translateX(320%);
+  to {
+    transform: translateX(-50%);
   }
 }
 
-@keyframes value-parallax {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0);
-  }
-  50% {
-    transform: translate3d(0, -8px, 0);
-  }
-}
-
-@keyframes timeline-pulse {
-  0%,
-  100% {
-    opacity: 0.65;
-  }
-  50% {
-    opacity: 1;
-  }
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 38s linear infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hover-glow,
-  .hover-glow:hover {
-    transform: none;
-    transition: none;
-    box-shadow: none;
+  html {
+    scroll-behavior: auto;
   }
 
-  .reveal-up {
-    opacity: 1;
-    transform: none;
+  .marquee-track {
     animation: none;
-  }
-
-  .flow-trace,
-  .motion-value-parallax,
-  .motion-timeline-fill {
-    animation: none;
-  }
-
-  .motion-accordion,
-  .motion-accordion:hover {
-    transition: none;
   }
 }
