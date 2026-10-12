@@ -8,19 +8,19 @@ export const carouselCards = [
   {
     id: "premium-travel",
     name: "Premium Travel",
-    textureUrl: "/cards/premium-travel.png",
+    textureUrl: "/cards/premium-travel.webp",
     edgeColor: "#cfd4dd",
   },
   {
     id: "metal-rewards",
     name: "Metal Rewards",
-    textureUrl: "/cards/metal-rewards.png",
+    textureUrl: "/cards/metal-rewards.webp",
     edgeColor: "#c8a258",
   },
   {
     id: "everyday-cashback",
     name: "Everyday Cashback",
-    textureUrl: "/cards/everyday-cashback.png",
+    textureUrl: "/cards/everyday-cashback.webp",
     edgeColor: "#949aa4",
   },
 ];

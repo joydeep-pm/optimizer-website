@@ -10,17 +10,19 @@ const smooth = (a, b, x) => {
 
 function Card({ progressRef, winners, urls }) {
   const group = useRef(null);
+  const smoothP = useRef(progressRef.current);
   const front = useRef(null);
   const textures = useLoader(TextureLoader, urls);
   useMemo(() => {
     textures.forEach((tex) => {
       tex.colorSpace = SRGBColorSpace;
-      tex.anisotropy = 8;
+      tex.anisotropy = 16;
     });
   }, [textures]);
 
-  useFrame((state) => {
-    const p = progressRef.current;
+  useFrame((state, delta) => {
+    smoothP.current = MathUtils.damp(smoothP.current, progressRef.current, 5, Math.min(delta, 0.05));
+    const p = smoothP.current;
     const last = winners.length - 1;
     const i = Math.min(Math.floor(p), last);
     const f = i >= last ? 0 : p - i;
@@ -51,7 +53,7 @@ function Card({ progressRef, winners, urls }) {
         <meshPhysicalMaterial
           ref={front}
           map={textures[winners[0]]}
-          transparent
+          alphaToCoverage
           roughness={0.32}
           metalness={0.15}
           clearcoat={1}
@@ -74,9 +76,14 @@ function Card({ progressRef, winners, urls }) {
   );
 }
 
-export default function SwipeCard({ progressRef, winners, urls }) {
+export default function SwipeCard({ progressRef, winners, urls, active = true }) {
   return (
-    <Canvas camera={{ position: [0, 0, 3.6], fov: 38 }} dpr={[1, 1.75]} gl={{ antialias: true, alpha: true }}>
+    <Canvas
+      camera={{ position: [0, 0, 3.6], fov: 38 }}
+      dpr={[1, 1.5]}
+      frameloop={active ? "always" : "never"}
+      gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
+    >
       <ambientLight intensity={0.35} />
       <directionalLight position={[3, 3, 5]} intensity={1.3} />
       <pointLight position={[-3, -1, 3]} intensity={0.6} color="#c4b0ff" />

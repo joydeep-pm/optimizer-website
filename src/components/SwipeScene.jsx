@@ -35,7 +35,8 @@ export default function SwipeScene() {
   const progressRef = useRef(0);
   const [step, setStep] = useState(0);
   const reduceMotion = useReducedMotion();
-  const near = useInView(ref, { margin: "800px 0px" });
+  const near = useInView(ref, { margin: "800px 0px", once: true });
+  const visible = useInView(ref, { margin: "100px 0px" });
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end end"] });
 
   useMotionValueEvent(scrollYProgress, "change", (v) => {
@@ -62,13 +63,13 @@ export default function SwipeScene() {
       <div className="sticky top-0 h-screen overflow-hidden pt-16">
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute left-1/2 top-1/2 h-[70vmin] w-[70vmin] -translate-x-1/2 -translate-y-1/2 rounded-full bg-violet/35 blur-[110px]"
+          className="pointer-events-none absolute left-1/2 top-1/2 h-[110vmin] w-[110vmin] -translate-x-1/2 -translate-y-1/2 bg-[radial-gradient(circle,rgba(140,82,255,0.38),rgba(140,82,255,0)_62%)]"
         />
         <div className="relative mx-auto grid h-full w-full max-w-[1320px] grid-rows-[1fr_auto] gap-2 px-4 pb-8 md:px-8 lg:grid-cols-2 lg:grid-rows-1 lg:items-center lg:pb-0">
           <div className="relative order-1 min-h-0 lg:order-2 lg:h-[78vh]">
             {near ? (
               <Suspense fallback={null}>
-                <SwipeCard progressRef={progressRef} winners={WINNERS} urls={URLS} />
+                <SwipeCard progressRef={progressRef} winners={WINNERS} urls={URLS} active={visible} />
               </Suspense>
             ) : null}
           </div>

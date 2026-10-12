@@ -11,9 +11,9 @@ createRoot(document.getElementById('root')).render(
     <ReactLenis
       root
       options={{
-        lerp: 0.1,
-        duration: 1.5,
-        touchMultiplier: 2,
+        lerp: 0.09,
+        smoothWheel: true,
+        anchors: true,
       }}
     >
       <App />
