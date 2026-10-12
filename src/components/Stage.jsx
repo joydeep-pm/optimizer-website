@@ -7,7 +7,6 @@ import { carouselCards, disclaimer, hero, pickerSpends } from "../content/siteCo
 const StageCard = lazy(() => import("./three/StageCard"));
 
 const TOTAL = 960;
-const FADE = 28;
 const BOUNDS = [100, 420, 640, 840];
 const PICK_RANGE = [130, 400];
 const SCENES = [
@@ -20,7 +19,7 @@ const SCENES = [
 const WINNERS = pickerSpends.map((s) => s.winner);
 const URLS = carouselCards.map((c) => c.textureUrl);
 const EASE = [0.16, 1, 0.3, 1];
-const COLORS = ["#f4f1ea", "#8c52ff", "#0b0b0f", "#d8cbff", "#1a0b3d"];
+const COLORS = ["#f4f1ea", "#8c52ff", "#0b0b0f", "#f4f1ea", "#8c52ff"];
 
 const LINES = [
   [{ w: "Turn" }, { w: "Every" }, { w: "Swipe" }],
@@ -31,11 +30,11 @@ const LINES = [
 function sceneStops(index) {
   const first = index === 0;
   const last = index === SCENES.length - 1;
-  const a = SCENES[index].at;
-  const b = last ? TOTAL : SCENES[index + 1].at;
-  if (first) return { stops: [0, b - FADE, b], opacity: [1, 1, 0], y: [0, 0, -40] };
-  if (last) return { stops: [a - FADE, a, TOTAL], opacity: [0, 1, 1], y: [40, 0, 0] };
-  return { stops: [a - FADE, a, b - FADE, b], opacity: [0, 1, 1, 0], y: [40, 0, 0, -40] };
+  const at = SCENES[index].at;
+  const end = last ? TOTAL : SCENES[index + 1].at;
+  if (first) return { stops: [0, end - 45, end - 17], opacity: [1, 1, 0], y: [0, 0, -40] };
+  if (last) return { stops: [at + 6, at + 34, TOTAL], opacity: [0, 1, 1], y: [40, 0, 0] };
+  return { stops: [at + 6, at + 34, end - 45, end - 17], opacity: [0, 1, 1, 0], y: [40, 0, 0, -40] };
 }
 
 function Scene({ index, vh, active, onMeasure, className = "", children }) {
@@ -93,6 +92,26 @@ function Toggle({ label, note }) {
   );
 }
 
+function SpendWatermark({ vh, label }) {
+  const o = useTransform(vh, [106, 134, 395, 417], [0, 1, 1, 0]);
+  return (
+    <motion.div style={{ opacity: o }} className="pointer-events-none absolute inset-0 z-[12] hidden items-center justify-center overflow-hidden lg:flex">
+      <AnimatePresence mode="wait" initial={false}>
+        <motion.span
+          key={label}
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -30 }}
+          transition={{ duration: 0.45, ease: EASE }}
+          className="display-font whitespace-nowrap text-[clamp(6rem,15vw,15rem)] font-bold uppercase leading-none tracking-[-0.04em] text-white/[0.13]"
+        >
+          {label}
+        </motion.span>
+      </AnimatePresence>
+    </motion.div>
+  );
+}
+
 function Preloader({ ready }) {
   return (
     <motion.div
@@ -138,7 +157,7 @@ function Ruler({ vh, active }) {
 
 function MilestoneFill({ vh }) {
   const height = useTransform(vh, [440, 610], ["0%", "64%"]);
-  const o = useTransform(vh, [395, 440, 600, 640], [0, 1, 1, 0]);
+  const o = useTransform(vh, [425, 450, 590, 618], [0, 1, 1, 0]);
   return (
     <motion.div style={{ opacity: o }} className="pointer-events-none absolute inset-0 z-10">
       <motion.div style={{ height }} className="absolute inset-x-0 bottom-0 bg-violet">
@@ -167,7 +186,7 @@ function StaticStage() {
 export default function Stage() {
   const reduceMotion = useReducedMotion();
   const sectionRef = useRef(null);
-  const stateRef = useRef({ vh: 0, tops: [0, 0, 0, 0, 0] });
+  const stateRef = useRef({ vh: 0, step: 0, tops: [0, 0, 0, 0, 0] });
   const onMeasure = useCallback((index, top) => {
     stateRef.current.tops[index] = top;
   }, []);
@@ -180,19 +199,20 @@ export default function Stage() {
   const vh = useTransform(scrollYProgress, [0, 1], [0, TOTAL]);
   const bg = useTransform(
     vh,
-    [0, BOUNDS[0] - FADE, BOUNDS[0], BOUNDS[1] - FADE, BOUNDS[1], BOUNDS[2] - FADE, BOUNDS[2], BOUNDS[3] - FADE, BOUNDS[3], TOTAL],
+    [0, BOUNDS[0] - 14, BOUNDS[0] - 6, BOUNDS[1] - 14, BOUNDS[1] - 6, BOUNDS[2] - 14, BOUNDS[2] - 6, BOUNDS[3] - 14, BOUNDS[3] - 6, TOTAL],
     [COLORS[0], COLORS[0], COLORS[1], COLORS[1], COLORS[2], COLORS[2], COLORS[3], COLORS[3], COLORS[4], COLORS[4]],
   );
 
   useMotionValueEvent(vh, "change", (v) => {
     stateRef.current.vh = v;
-    const idx = SCENES.reduce((acc, s, i) => (v >= s.at - FADE / 2 ? i : acc), 0);
+    const idx = SCENES.reduce((acc, sc, i) => (v >= sc.at ? i : acc), 0);
     setActive(idx);
     const [ps, pe] = PICK_RANGE;
     const n = WINNERS.length - 1;
     const p = Math.min(Math.max(((v - ps) / (pe - ps)) * n, 0), n);
-    const i = Math.floor(p);
-    setStep(Math.min(n, p - i >= 0.75 ? i + 1 : i));
+    const nextStep = Math.min(n, Math.round(p));
+    stateRef.current.step = nextStep;
+    setStep(nextStep);
     setPct(Math.round(Math.min(Math.max((v - 440) / 170, 0), 1) * 64));
   });
 
@@ -208,9 +228,6 @@ export default function Stage() {
     if (lenis) lenis.scrollTo(y, { duration: 1.1 });
     else window.scrollTo({ top: y, behavior: "smooth" });
   }
-
-  const dataShift = useTransform(vh, [640, 840], ["0%", "-35%"]);
-  const dataOpacity = useTransform(vh, [630, 665, 800, 840], [0, 1, 1, 0]);
 
   if (reduceMotion) return <StaticStage />;
 
@@ -228,14 +245,7 @@ export default function Stage() {
         <motion.div style={{ backgroundColor: bg }} className="absolute inset-0" />
         <MilestoneFill vh={vh} />
 
-        <motion.div
-          style={{ opacity: dataOpacity, x: dataShift }}
-          className="pointer-events-none absolute inset-x-0 bottom-[3%] z-10 hidden whitespace-nowrap lg:block"
-        >
-          <span className="outline-word display-font text-[clamp(4rem,13vw,13rem)] font-bold leading-none [--stroke:rgba(11,11,15,0.3)]">
-            YOU DECIDE &#10022; YOU DECIDE &#10022; YOU DECIDE &#10022;
-          </span>
-        </motion.div>
+        <SpendWatermark vh={vh} label={spend.label} />
 
         <div className="pointer-events-none absolute inset-0 z-[15]">
           <Suspense fallback={null}>
@@ -258,7 +268,7 @@ export default function Stage() {
                       <span key={word.w} className="mr-[0.2em] inline-block overflow-hidden pb-[0.08em] align-top last:mr-0">
                         <motion.span
                           className={`inline-block ${word.hot ? "accent text-violet" : ""} ${
-                            word.mark ? "accent rounded-[0.18em] bg-violet px-[0.14em] text-white" : ""
+                            word.mark ? "rounded-[0.18em] bg-violet px-[0.14em] text-white" : ""
                           }`}
                           initial={{ y: "115%" }}
                           animate={{ y: 0 }}
@@ -291,7 +301,7 @@ export default function Stage() {
                   animate={{ y: 0, opacity: 1 }}
                   exit={{ y: "-100%", opacity: 0 }}
                   transition={{ duration: 0.55, ease: EASE }}
-                  className="outline-word display-font absolute inset-x-0 top-0 whitespace-nowrap text-[clamp(1.9rem,4vw,4.2rem)] font-bold leading-[1.05] tracking-[-0.03em]"
+                  className="display-font absolute inset-x-0 top-0 whitespace-nowrap text-[clamp(1.9rem,4vw,4.2rem)] font-bold leading-[1.05] tracking-[-0.03em]"
                 >
                   {spend.label}
                 </motion.h2>
@@ -326,15 +336,15 @@ export default function Stage() {
         <Scene index={2} vh={vh} active={active} onMeasure={onMeasure} className="items-end lg:items-center">
           <div className="w-full text-white lg:w-[44%]">
             <p className="label text-white/80">[03] Across the month</p>
-            <p className="outline-word display-font text-[clamp(5rem,17vw,15rem)] font-bold leading-[0.85] tracking-[-0.05em] [--stroke:#fff]">{pct}%</p>
+            <p className="display-font text-[clamp(5rem,15vw,13rem)] font-bold leading-[0.85] tracking-[-0.05em] text-white">{pct}%</p>
             <h2 className="display-font mt-2 text-3xl font-bold leading-tight tracking-tight md:text-5xl">Milestones and points, noticed in time.</h2>
             <p className="mt-3 max-w-md text-base text-white/85 md:text-lg">Track spend milestones and points that expire, so a bonus is not missed by a few days.</p>
             <p className="mt-3 text-xs text-white/70">Illustration only. Quarterly spend milestone.</p>
           </div>
         </Scene>
 
-        <Scene index={3} vh={vh} active={active} onMeasure={onMeasure} className="items-end justify-end lg:items-center">
-          <div className="ml-auto w-full text-ink lg:w-[46%]">
+        <Scene index={3} vh={vh} active={active} onMeasure={onMeasure} className="items-end lg:items-center">
+          <div className="w-full text-ink lg:w-[46%]">
             <p className="label text-ink/80">[04] Behind the scenes</p>
             <h2 className="display-font mt-2 text-4xl font-bold leading-[1] tracking-tight md:text-7xl">You choose what it reads.</h2>
             <div className="mt-5 space-y-3">
@@ -345,15 +355,15 @@ export default function Stage() {
           </div>
         </Scene>
 
-        <Scene index={4} vh={vh} active={active} onMeasure={onMeasure} className="items-end justify-end lg:items-center">
-          <div className="w-full text-white lg:ml-auto lg:w-[50%]">
+        <Scene index={4} vh={vh} active={active} onMeasure={onMeasure} className="items-end lg:items-center">
+          <div className="w-full text-white lg:w-[50%]">
             <p className="label text-white/80">[05] Early access</p>
             <h2 className="display-font mt-2 text-balance text-4xl font-bold leading-[0.98] tracking-[-0.03em] md:text-7xl">
               Be first to know which card to swipe.
             </h2>
             <p className="mt-3 max-w-lg text-base text-white/85 md:text-lg">Join the waitlist for launch updates and onboarding instructions.</p>
             <div className="mt-5 max-w-xl">
-              <WaitlistForm variant="hero" tone="dark" compact />
+              <WaitlistForm variant="hero" tone="brand" compact />
             </div>
             <p className="mt-3 text-xs text-white/70">{disclaimer}</p>
           </div>

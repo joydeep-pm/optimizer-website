@@ -4,35 +4,22 @@ import { Environment, RoundedBox } from "@react-three/drei";
 import { MathUtils, SRGBColorSpace, TextureLoader } from "three";
 
 const PI = Math.PI;
+const NAV_PX = 78;
+const BOUNDS = [100, 420, 640, 840];
+const FADE_ZONE = 28;
+
 const smooth = (a, b, x) => {
   const t = MathUtils.clamp((x - a) / (b - a), 0, 1);
   return t * t * (3 - 2 * t);
 };
 
 const DESKTOP = [
-  [0, { fx: 0.46, fy: 0, s: 1.1, rx: 0.15, ry: -0.55, rz: 0.06 }],
-  [100, { fx: 0.46, fy: 0, s: 1.1, rx: 0.1, ry: -0.35, rz: 0 }],
-  [150, { fx: 0.46, fy: 0, s: 1.1, rx: 0, ry: 0, rz: 0 }],
-  [420, { fx: 0.46, fy: 0, s: 1.1, rx: 0, ry: 0, rz: 0 }],
-  [490, { fx: 0.46, fy: 0.02, s: 1.05, rx: 0.05, ry: -0.2, rz: 0 }],
-  [640, { fx: 0.46, fy: 0.02, s: 1.05, rx: 0.05, ry: -0.2, rz: 0 }],
-  [710, { fx: -0.46, fy: 0, s: 1.0, rx: 0.05, ry: PI - 0.35, rz: -0.08 }],
-  [840, { fx: -0.46, fy: 0, s: 1.0, rx: 0.05, ry: PI - 0.35, rz: -0.08 }],
-  [910, { fx: -0.46, fy: 0.02, s: 1.05, rx: 0.05, ry: 2 * PI, rz: 0 }],
-  [960, { fx: -0.46, fy: 0.02, s: 1.05, rx: 0.05, ry: 2 * PI, rz: 0 }],
-];
-
-const MOBILE = [
-  [0, { fx: 0, fy: 0.42, s: 0.5, rx: 0.15, ry: -0.5, rz: 0.04 }],
-  [100, { fx: 0, fy: 0.42, s: 0.5, rx: 0.1, ry: -0.3, rz: 0 }],
-  [150, { fx: 0, fy: 0.3, s: 0.58, rx: 0, ry: 0, rz: 0 }],
-  [420, { fx: 0, fy: 0.3, s: 0.58, rx: 0, ry: 0, rz: 0 }],
-  [490, { fx: 0, fy: 0.28, s: 0.56, rx: 0.05, ry: 0, rz: 0 }],
-  [640, { fx: 0, fy: 0.28, s: 0.56, rx: 0.05, ry: 0, rz: 0 }],
-  [710, { fx: 0, fy: 0.3, s: 0.55, rx: 0.05, ry: PI - 0.35, rz: -0.06 }],
-  [840, { fx: 0, fy: 0.3, s: 0.55, rx: 0.05, ry: PI - 0.35, rz: -0.06 }],
-  [910, { fx: 0, fy: 0.25, s: 0.62, rx: 0.05, ry: 2 * PI, rz: 0 }],
-  [960, { fx: 0, fy: 0.25, s: 0.62, rx: 0.05, ry: 2 * PI, rz: 0 }],
+  [0, { fx: 0.43, fy: 0, s: 1.2 }],
+  [420, { fx: 0.43, fy: 0, s: 1.2 }],
+  [480, { fx: 0.43, fy: 0.02, s: 1.15 }],
+  [596, { fx: 0.43, fy: 0.02, s: 1.15 }],
+  [660, { fx: 0.43, fy: 0, s: 1.1 }],
+  [960, { fx: 0.43, fy: 0, s: 1.1 }],
 ];
 
 function poseAt(table, vh) {
@@ -52,10 +39,6 @@ function poseAt(table, vh) {
   return { ...table[table.length - 1][1] };
 }
 
-const NAV_PX = 78;
-const BOUNDS = [100, 420, 640, 840];
-const FADE_ZONE = 28;
-
 function topAt(tops, vh) {
   let i = 0;
   while (i < BOUNDS.length && vh >= BOUNDS[i]) i += 1;
@@ -63,20 +46,43 @@ function topAt(tops, vh) {
   const next = tops[Math.min(i + 1, tops.length - 1)];
   const b = BOUNDS[i];
   if (b === undefined || cur === undefined) return cur ?? 0;
-  const t = smooth(b - FADE_ZONE, b, vh);
-  return cur + ((next ?? cur) - cur) * t;
+  return cur + ((next ?? cur) - cur) * smooth(b - FADE_ZONE, b, vh);
 }
 
-function Card({ stateRef, winners, urls, pickRange, onReady }) {
-  const group = useRef(null);
-  const front = useRef(null);
+function flipAt(vh) {
+  if (vh <= 800) return PI * smooth(596, 660, vh);
+  return PI * (1 - smooth(800, 860, vh));
+}
+
+function CardMesh({ texture, back, setRef }) {
+  return (
+    <group ref={setRef}>
+      <RoundedBox args={[1.6, 1.0, 0.03]} radius={0.05} smoothness={4}>
+        <meshPhysicalMaterial color="#15151c" metalness={0.9} roughness={0.28} />
+      </RoundedBox>
+      <mesh position={[0, 0, 0.0165]}>
+        <planeGeometry args={[1.6, 1.0]} />
+        <meshPhysicalMaterial map={texture} alphaToCoverage roughness={0.34} metalness={0.12} clearcoat={1} clearcoatRoughness={0.14} />
+      </mesh>
+      <mesh position={[0, 0, -0.0165]} rotation={[0, PI, 0]}>
+        <planeGeometry args={[1.6, 1.0]} />
+        <meshPhysicalMaterial map={back} alphaToCoverage roughness={0.4} metalness={0.2} clearcoat={0.6} clearcoatRoughness={0.2} />
+      </mesh>
+    </group>
+  );
+}
+
+function Deck({ stateRef, winners, urls, pickRange, onReady }) {
+  const root = useRef(null);
+  const cards = useRef([null, null, null]);
+  const cur = useRef([0, 1, 2].map((i) => ({ x: 0, y: 0, z: 0, s: i === 0 ? 1 : 0.001, rz: 0 })));
   const smoothVh = useRef(0);
-  const smoothP = useRef(0);
+  const order = useRef([0, 1, 2]);
+  const lastWinner = useRef(0);
   const all = useLoader(TextureLoader, [...urls, "/cards/card-back.webp"]);
-  const textures = all.slice(0, urls.length);
-  const backTexture = all[urls.length];
   const viewport = useThree((s) => s.viewport);
   const size = useThree((s) => s.size);
+
   useEffect(() => {
     all.forEach((tex) => {
       tex.colorSpace = SRGBColorSpace;
@@ -93,67 +99,84 @@ function Card({ stateRef, winners, urls, pickRange, onReady }) {
     smoothVh.current = MathUtils.damp(smoothVh.current, stateRef.current.vh, 7, d);
     const vh = smoothVh.current;
     const mobile = size.width < 1024;
-    const pose = poseAt(mobile ? MOBILE : DESKTOP, vh);
+    const pose = poseAt(DESKTOP, vh);
     const perPx = viewport.height / size.height;
     if (mobile) {
       const tops = stateRef.current.tops;
       const textTop = tops.every((v) => v > 0) ? topAt(tops, vh) : size.height * 0.55;
       const free = Math.max(textTop - NAV_PX - 28, 60);
-      pose.s = Math.min((free * 0.9) * perPx, (size.width * 0.8 * perPx) / 1.6);
+      pose.s = Math.min(free * 0.9 * perPx, (size.width * 0.8 * perPx) / 1.6);
       pose.fx = 0;
       pose.fy = ((size.height / 2 - (NAV_PX + free / 2 + 6)) * perPx) / (viewport.height / 2);
     }
 
-    const [ps, pe] = pickRange;
-    const n = winners.length - 1;
-    const rawP = MathUtils.clamp(((vh - ps) / (pe - ps)) * n, 0, n);
-    smoothP.current = MathUtils.damp(smoothP.current, rawP, 5, d);
-    const p = smoothP.current;
-    const i = Math.min(Math.floor(p), n);
-    const f = i >= n ? 0 : p - i;
-    const t = smooth(0.4, 1, f);
-    const inPick = vh > ps - 20 && vh < pe + 20;
-    const showing = inPick ? (t < 0.5 ? i : Math.min(i + 1, n)) : vh >= pe + 20 ? n : 0;
-    const tex = textures[winners[showing]];
-    if (front.current && front.current.map !== tex) {
-      front.current.map = tex;
-      front.current.needsUpdate = true;
-    }
-    const spin = inPick ? t * PI * 2 : 0;
-
-    const g = group.current;
+    const g = root.current;
     if (!g) return;
-    const time = state.clock.elapsedTime;
-    const idle = vh > 900 ? time * 0.35 : 0;
     g.position.x = pose.fx * (viewport.width / 2);
-    g.position.y = pose.fy * (viewport.height / 2) + Math.sin(time * 1.1) * 0.035 + Math.sin(t * PI) * (inPick ? 0.1 : 0);
-    g.scale.setScalar(pose.s + (inPick ? Math.sin(t * PI) * 0.06 : 0));
-    g.rotation.x = pose.rx - state.pointer.y * 0.2 + Math.sin(time * 0.8) * 0.025;
-    g.rotation.y = pose.ry + spin + idle + state.pointer.x * 0.3;
-    g.rotation.z = pose.rz + (inPick ? Math.sin(t * PI) * -0.1 : 0);
+    g.position.y = pose.fy * (viewport.height / 2);
+    g.scale.setScalar(pose.s);
+    g.rotation.x = (mobile ? 0.04 : 0.07) - state.pointer.y * 0.025;
+    g.rotation.y = (mobile ? 0 : -0.14) + flipAt(vh) + state.pointer.x * 0.035;
+
+    const [ps, pe] = pickRange;
+    const inPick = vh > ps - 20 && vh < pe + 20;
+    const winner = inPick ? winners[stateRef.current.step] : 0;
+    const deck = smooth(110, 140, vh) * (1 - smooth(405, 435, vh));
+
+    if (winner !== lastWinner.current) {
+      const o = order.current;
+      const at = o.indexOf(winner);
+      const prev = o[0];
+      o[0] = winner;
+      o[at] = prev;
+      lastWinner.current = winner;
+    }
+
+    for (let c = 0; c < 3; c += 1) {
+      const rank = order.current.indexOf(c);
+      let tx = 0;
+      let ty = 0;
+      let tz = 0;
+      let ts = 0.001;
+      let trz = 0;
+      if (rank === 0) {
+        tz = 0.04 * deck;
+        ts = 1;
+      } else {
+        ty = 0.17 * rank * deck;
+        tz = -0.1 * rank * deck;
+        ts = Math.max(0.001, 1 - 0.07 * rank) * deck;
+        trz = (rank === 1 ? 0.035 : -0.035) * deck;
+      }
+      const cs = cur.current[c];
+      cs.x = MathUtils.damp(cs.x, tx, 9, d);
+      cs.y = MathUtils.damp(cs.y, ty, 9, d);
+      cs.z = MathUtils.damp(cs.z, tz, 9, d);
+      cs.s = MathUtils.damp(cs.s, ts, 9, d);
+      cs.rz = MathUtils.damp(cs.rz, trz, 9, d);
+      const node = cards.current[c];
+      if (node) {
+        node.position.set(cs.x, cs.y, cs.z);
+        node.scale.setScalar(cs.s);
+        node.rotation.z = cs.rz;
+        node.visible = cs.s > 0.01;
+      }
+    }
   });
 
+  const back = all[urls.length];
   return (
-    <group ref={group}>
-      <RoundedBox args={[1.6, 1.0, 0.03]} radius={0.05} smoothness={4}>
-        <meshPhysicalMaterial color="#15151c" metalness={0.9} roughness={0.28} />
-      </RoundedBox>
-      <mesh position={[0, 0, 0.0165]}>
-        <planeGeometry args={[1.6, 1.0]} />
-        <meshPhysicalMaterial
-          ref={front}
-          map={textures[winners[0]]}
-          alphaToCoverage
-          roughness={0.32}
-          metalness={0.15}
-          clearcoat={1}
-          clearcoatRoughness={0.12}
+    <group ref={root}>
+      {urls.map((u, idx) => (
+        <CardMesh
+          key={u}
+          texture={all[idx]}
+          back={back}
+          setRef={(node) => {
+            cards.current[idx] = node;
+          }}
         />
-      </mesh>
-      <mesh position={[0, 0, -0.0165]} rotation={[0, PI, 0]}>
-        <planeGeometry args={[1.6, 1.0]} />
-        <meshPhysicalMaterial map={backTexture} alphaToCoverage roughness={0.4} metalness={0.2} clearcoat={0.6} clearcoatRoughness={0.2} />
-      </mesh>
+      ))}
     </group>
   );
 }
@@ -169,7 +192,7 @@ export default function StageCard({ stateRef, winners, urls, pickRange, onReady,
       <ambientLight intensity={0.35} />
       <directionalLight position={[3, 3, 5]} intensity={1.3} />
       <pointLight position={[-3, -1, 3]} intensity={0.6} color="#c4b0ff" />
-      <Card stateRef={stateRef} winners={winners} urls={urls} pickRange={pickRange} onReady={onReady} />
+      <Deck stateRef={stateRef} winners={winners} urls={urls} pickRange={pickRange} onReady={onReady} />
       <Environment files="/hdr/city.hdr" />
     </Canvas>
   );
