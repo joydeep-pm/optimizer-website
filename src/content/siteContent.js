@@ -44,7 +44,7 @@ export const hero = {
 export const valueSection = {
   eyebrow: "Why Card Optimizer",
   title: "Know which card to use before you pay.",
-  body: "Most people default to one card for everything. Card Optimizer weighs the merchant, the channel and each card's reward rules so the better route is obvious. It covers 247 Indian credit cards and 207 merchants.",
+  body: "Most people default to one card for everything. Card Optimizer weighs the merchant, the channel and each card's reward rules so the better route is obvious.",
   signalLabel: "Try it",
   decisionPanel: {
     title: "Decision Canvas",
