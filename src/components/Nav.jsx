@@ -8,7 +8,7 @@ export default function Nav() {
           <span className="display-font inline-flex h-8 w-8 items-center justify-center rounded-full bg-ink text-xs font-bold text-white">
             CP
           </span>
-          <span className="display-font text-lg font-bold tracking-tight text-ink">Card Co-Pilot</span>
+          <span className="display-font hidden whitespace-nowrap text-lg font-bold tracking-tight text-ink min-[420px]:inline">Card Co-Pilot</span>
         </a>
 
         <nav aria-label="Primary" className="hidden items-center gap-8 md:flex">
@@ -25,7 +25,7 @@ export default function Nav() {
 
         <a
           href="#waitlist"
-          className="inline-flex min-h-11 items-center rounded-full bg-ink px-5 text-sm font-semibold text-white transition hover:bg-violet focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
+          className="inline-flex min-h-11 items-center whitespace-nowrap rounded-full bg-ink px-5 text-sm font-semibold text-white transition hover:bg-violet focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
         >
           Join the waitlist
         </a>

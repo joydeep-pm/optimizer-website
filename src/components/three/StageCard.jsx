@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { Canvas, useFrame, useLoader, useThree } from "@react-three/fiber";
 import { Environment, RoundedBox } from "@react-three/drei";
 import { MathUtils, SRGBColorSpace, TextureLoader } from "three";
@@ -18,8 +18,8 @@ const DESKTOP = [
   [640, { fx: 0.46, fy: 0.02, s: 1.05, rx: 0.05, ry: -0.2, rz: 0 }],
   [710, { fx: -0.46, fy: 0, s: 1.0, rx: 0.05, ry: PI - 0.35, rz: -0.08 }],
   [840, { fx: -0.46, fy: 0, s: 1.0, rx: 0.05, ry: PI - 0.35, rz: -0.08 }],
-  [910, { fx: 0.5, fy: 0.02, s: 1.15, rx: 0.05, ry: 2 * PI, rz: 0 }],
-  [960, { fx: 0.5, fy: 0.02, s: 1.15, rx: 0.05, ry: 2 * PI, rz: 0 }],
+  [910, { fx: -0.46, fy: 0.02, s: 1.05, rx: 0.05, ry: 2 * PI, rz: 0 }],
+  [960, { fx: -0.46, fy: 0.02, s: 1.05, rx: 0.05, ry: 2 * PI, rz: 0 }],
 ];
 
 const MOBILE = [
@@ -52,19 +52,37 @@ function poseAt(table, vh) {
   return { ...table[table.length - 1][1] };
 }
 
+const NAV_PX = 78;
+const BOUNDS = [100, 420, 640, 840];
+const FADE_ZONE = 28;
+
+function topAt(tops, vh) {
+  let i = 0;
+  while (i < BOUNDS.length && vh >= BOUNDS[i]) i += 1;
+  const cur = tops[i];
+  const next = tops[Math.min(i + 1, tops.length - 1)];
+  const b = BOUNDS[i];
+  if (b === undefined || cur === undefined) return cur ?? 0;
+  const t = smooth(b - FADE_ZONE, b, vh);
+  return cur + ((next ?? cur) - cur) * t;
+}
+
 function Card({ stateRef, winners, urls, pickRange, onReady }) {
   const group = useRef(null);
   const front = useRef(null);
   const smoothVh = useRef(0);
   const smoothP = useRef(0);
-  const textures = useLoader(TextureLoader, urls);
+  const all = useLoader(TextureLoader, [...urls, "/cards/card-back.webp"]);
+  const textures = all.slice(0, urls.length);
+  const backTexture = all[urls.length];
   const viewport = useThree((s) => s.viewport);
-  useMemo(() => {
-    textures.forEach((tex) => {
+  const size = useThree((s) => s.size);
+  useEffect(() => {
+    all.forEach((tex) => {
       tex.colorSpace = SRGBColorSpace;
       tex.anisotropy = 16;
     });
-  }, [textures]);
+  }, [all]);
 
   useEffect(() => {
     if (onReady) onReady();
@@ -74,8 +92,17 @@ function Card({ stateRef, winners, urls, pickRange, onReady }) {
     const d = Math.min(delta, 0.05);
     smoothVh.current = MathUtils.damp(smoothVh.current, stateRef.current.vh, 7, d);
     const vh = smoothVh.current;
-    const mobile = viewport.width / viewport.height < 0.9;
+    const mobile = size.width < 1024;
     const pose = poseAt(mobile ? MOBILE : DESKTOP, vh);
+    const perPx = viewport.height / size.height;
+    if (mobile) {
+      const tops = stateRef.current.tops;
+      const textTop = tops.every((v) => v > 0) ? topAt(tops, vh) : size.height * 0.55;
+      const free = Math.max(textTop - NAV_PX - 28, 60);
+      pose.s = Math.min((free * 0.9) * perPx, (size.width * 0.8 * perPx) / 1.6);
+      pose.fx = 0;
+      pose.fy = ((size.height / 2 - (NAV_PX + free / 2 + 6)) * perPx) / (viewport.height / 2);
+    }
 
     const [ps, pe] = pickRange;
     const n = winners.length - 1;
@@ -124,16 +151,8 @@ function Card({ stateRef, winners, urls, pickRange, onReady }) {
         />
       </mesh>
       <mesh position={[0, 0, -0.0165]} rotation={[0, PI, 0]}>
-        <planeGeometry args={[1.58, 0.98]} />
-        <meshPhysicalMaterial color="#0d0d12" metalness={0.8} roughness={0.35} />
-      </mesh>
-      <mesh position={[0, 0.27, -0.0172]} rotation={[0, PI, 0]}>
-        <planeGeometry args={[1.58, 0.18]} />
-        <meshStandardMaterial color="#040406" metalness={0.3} roughness={0.5} />
-      </mesh>
-      <mesh position={[-0.2, -0.1, -0.0172]} rotation={[0, PI, 0]}>
-        <planeGeometry args={[0.95, 0.13]} />
-        <meshStandardMaterial color="#8c52ff" metalness={0.2} roughness={0.6} />
+        <planeGeometry args={[1.6, 1.0]} />
+        <meshPhysicalMaterial map={backTexture} alphaToCoverage roughness={0.4} metalness={0.2} clearcoat={0.6} clearcoatRoughness={0.2} />
       </mesh>
     </group>
   );

@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, useRef, useState } from "react";
+import { lazy, Suspense, useCallback, useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useMotionValueEvent, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { useLenis } from "lenis/react";
 import WaitlistForm from "./WaitlistForm";
@@ -38,17 +38,33 @@ function sceneStops(index) {
   return { stops: [a - FADE, a, b - FADE, b], opacity: [0, 1, 1, 0], y: [40, 0, 0, -40] };
 }
 
-function Scene({ index, vh, active, className = "", children }) {
+function Scene({ index, vh, active, onMeasure, className = "", children }) {
+  const innerRef = useRef(null);
   const { stops, opacity, y } = sceneStops(index);
+  useEffect(() => {
+    const el = innerRef.current && innerRef.current.firstElementChild;
+    if (!el || !onMeasure) return undefined;
+    const measure = () => onMeasure(index, el.offsetTop);
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(el);
+    window.addEventListener("resize", measure);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(measure);
+    return () => {
+      ro.disconnect();
+      window.removeEventListener("resize", measure);
+    };
+  }, [index, onMeasure]);
   const raw = useTransform(vh, stops, opacity);
   const o = useTransform(raw, (v) => (v < 0.05 ? 0 : v));
   const ty = useTransform(vh, stops, y);
   return (
     <motion.div
+      inert={active !== index}
       style={{ opacity: o, y: ty, pointerEvents: active === index ? "auto" : "none" }}
       className={`absolute inset-0 z-20 flex px-4 pb-8 pt-20 md:px-10 md:pb-10 ${className}`}
     >
-      <div className="mx-auto flex w-full max-w-[1320px] md:pr-20">{children}</div>
+      <div ref={innerRef} className="mx-auto flex w-full max-w-[1320px] lg:pr-20">{children}</div>
     </motion.div>
   );
 }
@@ -103,7 +119,7 @@ function Preloader({ ready }) {
 function Ruler({ vh, active }) {
   const fill = useTransform(vh, [0, TOTAL], [0, 1]);
   return (
-    <div className="pointer-events-none absolute right-3 top-1/2 z-30 hidden -translate-y-1/2 md:flex md:right-6">
+    <div className="pointer-events-none absolute right-3 top-1/2 z-30 hidden -translate-y-1/2 lg:flex lg:right-6">
       <div className={`relative flex h-[46vh] flex-col justify-between py-1 transition-colors duration-500 ${active === 0 || active === 3 ? "text-ink" : "text-white"}`}>
         <div className="absolute bottom-0 right-[3px] top-0 w-px bg-current opacity-30" />
         <motion.div style={{ scaleY: fill }} className="absolute right-[3px] top-0 h-full w-px origin-top bg-current" />
@@ -136,11 +152,11 @@ function MilestoneFill({ vh }) {
 
 function StaticStage() {
   return (
-    <section id="top" className="bg-bone px-4 py-24 md:px-10">
+    <section id="top" className="bg-bone px-4 pb-24 pt-32 md:px-10">
       <div className="mx-auto max-w-[1320px]">
         <h1 className="display-font text-6xl font-bold tracking-tight md:text-9xl">{hero.headline}</h1>
         <p className="mt-6 max-w-xl text-2xl text-ink/80">{hero.subheadline}</p>
-        <div className="mt-8 max-w-3xl">
+        <div id="waitlist" className="mt-8 max-w-3xl">
           <WaitlistForm variant="hero" tone="light" />
         </div>
       </div>
@@ -151,7 +167,10 @@ function StaticStage() {
 export default function Stage() {
   const reduceMotion = useReducedMotion();
   const sectionRef = useRef(null);
-  const stateRef = useRef({ vh: 0 });
+  const stateRef = useRef({ vh: 0, tops: [0, 0, 0, 0, 0] });
+  const onMeasure = useCallback((index, top) => {
+    stateRef.current.tops[index] = top;
+  }, []);
   const [active, setActive] = useState(0);
   const [step, setStep] = useState(0);
   const [pct, setPct] = useState(0);
@@ -211,7 +230,7 @@ export default function Stage() {
 
         <motion.div
           style={{ opacity: dataOpacity, x: dataShift }}
-          className="pointer-events-none absolute inset-x-0 bottom-[3%] z-10 hidden whitespace-nowrap md:block"
+          className="pointer-events-none absolute inset-x-0 bottom-[3%] z-10 hidden whitespace-nowrap lg:block"
         >
           <span className="outline-word display-font text-[clamp(4rem,13vw,13rem)] font-bold leading-none [--stroke:rgba(11,11,15,0.3)]">
             YOU DECIDE &#10022; YOU DECIDE &#10022; YOU DECIDE &#10022;
@@ -224,8 +243,8 @@ export default function Stage() {
           </Suspense>
         </div>
 
-        <Scene index={0} vh={vh} active={active} className="items-end md:items-center">
-          <div className="w-full md:w-[56%]">
+        <Scene index={0} vh={vh} active={active} onMeasure={onMeasure} className="items-end lg:items-center">
+          <div className="w-full lg:w-[56%]">
             <p className="label text-ink/70">[01] {hero.eyebrow}</p>
             <h1
               aria-label={hero.headline}
@@ -253,15 +272,15 @@ export default function Stage() {
                 </span>
               ))}
             </h1>
-            <p className="mt-5 hidden max-w-lg text-lg text-ink/80 md:block md:text-xl">{hero.subheadline}</p>
+            <p className="mt-5 hidden max-w-lg text-lg text-ink/80 lg:block lg:text-xl">{hero.subheadline}</p>
             <div className="mt-6 max-w-xl">
-              <WaitlistForm variant="hero" tone="light" />
+              <WaitlistForm variant="hero" tone="light" compact />
             </div>
           </div>
         </Scene>
 
-        <Scene index={1} vh={vh} active={active} className="items-end md:items-center">
-          <div className="w-full text-white md:w-[56%]">
+        <Scene index={1} vh={vh} active={active} onMeasure={onMeasure} className="items-end lg:items-center">
+          <div className="w-full text-white lg:w-[56%]">
             <p className="label text-white/80">[02] The swipe</p>
             <p className="label mt-4 text-white/80">I am paying for</p>
             <div className="relative mt-1 h-[3rem] overflow-hidden md:h-[5.4rem]">
@@ -304,8 +323,8 @@ export default function Stage() {
           </div>
         </Scene>
 
-        <Scene index={2} vh={vh} active={active} className="items-end md:items-center">
-          <div className="w-full text-white md:w-[44%]">
+        <Scene index={2} vh={vh} active={active} onMeasure={onMeasure} className="items-end lg:items-center">
+          <div className="w-full text-white lg:w-[44%]">
             <p className="label text-white/80">[03] Across the month</p>
             <p className="outline-word display-font text-[clamp(5rem,17vw,15rem)] font-bold leading-[0.85] tracking-[-0.05em] [--stroke:#fff]">{pct}%</p>
             <h2 className="display-font mt-2 text-3xl font-bold leading-tight tracking-tight md:text-5xl">Milestones and points, noticed in time.</h2>
@@ -314,8 +333,8 @@ export default function Stage() {
           </div>
         </Scene>
 
-        <Scene index={3} vh={vh} active={active} className="items-end justify-end md:items-center">
-          <div className="ml-auto w-full text-ink md:w-[46%]">
+        <Scene index={3} vh={vh} active={active} onMeasure={onMeasure} className="items-end justify-end lg:items-center">
+          <div className="ml-auto w-full text-ink lg:w-[46%]">
             <p className="label text-ink/80">[04] Behind the scenes</p>
             <h2 className="display-font mt-2 text-4xl font-bold leading-[1] tracking-tight md:text-7xl">You choose what it reads.</h2>
             <div className="mt-5 space-y-3">
@@ -326,15 +345,15 @@ export default function Stage() {
           </div>
         </Scene>
 
-        <Scene index={4} vh={vh} active={active} className="items-end md:items-center">
-          <div className="w-full text-white md:w-[52%]">
+        <Scene index={4} vh={vh} active={active} onMeasure={onMeasure} className="items-end justify-end lg:items-center">
+          <div className="w-full text-white lg:ml-auto lg:w-[50%]">
             <p className="label text-white/80">[05] Early access</p>
             <h2 className="display-font mt-2 text-balance text-4xl font-bold leading-[0.98] tracking-[-0.03em] md:text-7xl">
               Be first to know which card to swipe.
             </h2>
             <p className="mt-3 max-w-lg text-base text-white/85 md:text-lg">Join the waitlist for launch updates and onboarding instructions.</p>
             <div className="mt-5 max-w-xl">
-              <WaitlistForm variant="hero" tone="dark" />
+              <WaitlistForm variant="hero" tone="dark" compact />
             </div>
             <p className="mt-3 text-xs text-white/70">{disclaimer}</p>
           </div>

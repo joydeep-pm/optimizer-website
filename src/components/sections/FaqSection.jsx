@@ -48,7 +48,7 @@ function Row({ index, item }) {
 export default function FaqSection() {
   return (
     <section id="faq" className="mx-auto w-full max-w-[1320px] px-4 py-16 md:px-8 md:py-28">
-      <p className="label text-ink/70">[05] Questions</p>
+      <p className="label text-ink/70">[07] Questions</p>
       <h2 className="display-font mt-4 max-w-4xl text-balance text-5xl font-bold leading-[0.98] tracking-tight md:text-8xl">
         Questions before you join
       </h2>

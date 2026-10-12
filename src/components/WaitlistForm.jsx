@@ -24,6 +24,7 @@ export default function WaitlistForm({
   variant = "hero",
   buttonLabel = "Join the Waitlist",
   tone = "dark",
+  compact = false,
   onSuccess,
 }) {
   const uid = useId();
@@ -119,7 +120,7 @@ export default function WaitlistForm({
           value={name}
           onChange={(event) => setName(event.target.value)}
           placeholder="Name (optional)"
-          className={inputClass}
+          className={`${inputClass} ${compact ? "hidden sm:block" : ""}`}
         />
         <label htmlFor={`${uid}-email`} className="sr-only">
           Email address
