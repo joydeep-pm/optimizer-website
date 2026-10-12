@@ -38,8 +38,8 @@ export default function Hero() {
                 <span key={word.w} className="mr-[0.2em] inline-block overflow-hidden pb-[0.08em] align-top last:mr-0">
                   <motion.span
                     className={`inline-block ${
-                      word.hot ? "text-violet" : ""
-                    } ${word.mark ? "rounded-[0.18em] bg-violet px-[0.14em] text-white" : ""}`}
+                      word.hot ? "accent text-violet" : ""
+                    } ${word.mark ? "accent rounded-[0.18em] bg-violet px-[0.14em] text-white" : ""}`}
                     initial={reduceMotion ? false : { y: "115%" }}
                     animate={{ y: 0 }}
                     transition={{ duration: 0.8, delay, ease: [0.16, 1, 0.3, 1] }}

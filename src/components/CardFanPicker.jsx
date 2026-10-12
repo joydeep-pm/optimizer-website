@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion, useMotionValue, useReducedMotion, useSpring } from "framer-motion";
 import { carouselCards, pickerSpends } from "../content/siteContent";
 
 const FAN = [
@@ -11,6 +11,25 @@ const FAN = [
 export default function CardFanPicker() {
   const [active, setActive] = useState(1);
   const reduceMotion = useReducedMotion();
+  const pointerX = useMotionValue(0);
+  const pointerY = useMotionValue(0);
+  const tiltY = useSpring(pointerX, { stiffness: 140, damping: 18, mass: 0.4 });
+  const tiltX = useSpring(pointerY, { stiffness: 140, damping: 18, mass: 0.4 });
+
+  function handlePointerMove(event) {
+    if (reduceMotion || event.pointerType !== "mouse") return;
+    const rect = event.currentTarget.getBoundingClientRect();
+    const px = (event.clientX - rect.left) / rect.width - 0.5;
+    const py = (event.clientY - rect.top) / rect.height - 0.5;
+    pointerX.set(px * 22);
+    pointerY.set(py * -18);
+  }
+
+  function resetTilt() {
+    pointerX.set(0);
+    pointerY.set(0);
+  }
+
   const spend = pickerSpends[active];
   const winner = carouselCards[spend.winner];
 
@@ -41,7 +60,12 @@ export default function CardFanPicker() {
         ))}
       </div>
 
-      <div className="relative mx-auto mt-6 h-[210px] w-full max-w-[420px] md:h-[250px]">
+      <div
+        className="relative mx-auto mt-10 h-[210px] w-full max-w-[420px] [perspective:1100px] md:h-[250px]"
+        onPointerMove={handlePointerMove}
+        onPointerLeave={resetTilt}
+      >
+        <motion.div className="absolute inset-0" style={{ rotateX: tiltX, rotateY: tiltY, transformStyle: "preserve-3d" }}>
         {carouselCards.map((card, index) => {
           const isWinner = index === spend.winner;
           const base = FAN[index];
@@ -54,16 +78,17 @@ export default function CardFanPicker() {
               initial={false}
               animate={{
                 x: base.x,
-                y: isWinner ? -14 : base.y,
+                y: isWinner ? -6 : base.y,
                 rotate: isWinner ? 0 : base.rotate,
-                scale: isWinner ? 1.1 : 0.94,
+                scale: isWinner ? 1.04 : 0.92,
                 opacity: isWinner ? 1 : 0.55,
-                zIndex: isWinner ? 30 : index,
+                z: isWinner ? 34 : index * 6,
               }}
               transition={reduceMotion ? { duration: 0 } : { type: "spring", stiffness: 220, damping: 22 }}
             />
           );
         })}
+        </motion.div>
       </div>
 
       <div role="status" aria-live="polite" className="mt-5 border-t border-white/15 pt-4">

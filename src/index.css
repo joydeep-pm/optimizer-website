@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600&family=Space+Grotesk:wght@500;700&family=Space+Mono:wght@400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600&family=Space+Grotesk:wght@500;700&family=Space+Mono:wght@400;700&family=Instrument+Serif:ital@0;1&family=Bricolage+Grotesque:wght@600;700;800&family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap");
 @import "tailwindcss";
 
 @theme {
@@ -8,6 +8,42 @@
   --color-violet: #8c52ff;
   --color-violet-soft: #c4b0ff;
   --font-mono: "Space Mono", ui-monospace, SFMono-Regular, monospace;
+}
+
+:root {
+  --f-display: "Space Grotesk", "Sora", sans-serif;
+  --f-body: "Sora", "Segoe UI", sans-serif;
+  --f-label: "Space Mono", ui-monospace, monospace;
+  --accent-style: normal;
+  --accent-family: inherit;
+  --accent-weight: inherit;
+}
+
+html[data-font="p1"] {
+  --f-display: "Instrument Serif", Georgia, serif;
+  --f-body: "Geist", "Segoe UI", sans-serif;
+  --f-label: "Geist Mono", ui-monospace, monospace;
+}
+
+html[data-font="p2"] {
+  --f-display: "Bricolage Grotesque", "Geist", sans-serif;
+  --f-body: "Geist", "Segoe UI", sans-serif;
+  --f-label: "Geist Mono", ui-monospace, monospace;
+}
+
+html[data-font="p3"] {
+  --f-display: "Geist", "Segoe UI", sans-serif;
+  --f-body: "Geist", "Segoe UI", sans-serif;
+  --f-label: "Geist Mono", ui-monospace, monospace;
+  --accent-family: "Instrument Serif", Georgia, serif;
+  --accent-style: italic;
+  --accent-weight: 400;
+}
+
+.accent {
+  font-family: var(--accent-family);
+  font-style: var(--accent-style);
+  font-weight: var(--accent-weight);
 }
 
 * {
@@ -27,7 +63,7 @@ body {
   overflow-x: clip;
   background: #f4f1ea;
   color: #0b0b0f;
-  font-family: "Sora", "Segoe UI", sans-serif;
+  font-family: var(--f-body);
 }
 
 #root {
@@ -35,11 +71,16 @@ body {
 }
 
 .display-font {
-  font-family: "Space Grotesk", "Sora", sans-serif;
+  font-family: var(--f-display);
+}
+
+html[data-font="p1"] .display-font {
+  font-weight: 400;
+  letter-spacing: -0.02em;
 }
 
 .label {
-  font-family: "Space Mono", ui-monospace, monospace;
+  font-family: var(--f-label);
   font-size: 0.8rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
