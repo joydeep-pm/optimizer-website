@@ -189,13 +189,18 @@ export const trustLedger = {
         tag: "Core",
       },
       {
+        title: "Your Google account name and email",
+        note: "To sign you in to the app.",
+        tag: "Required for the app",
+      },
+      {
         title: "Gmail, read-only",
-        note: "Only if you connect it, and you can skip it during setup. Used to decode card statements so milestones and expiring points can be tracked.",
+        note: "Only if you connect it, and you can skip it during setup. Used to decode card statements and transaction alerts so milestones and expiring points can be tracked.",
         tag: "Optional, planned",
       },
       {
         title: "Bank transaction SMS",
-        note: "Only if you turn it on, where your phone supports it. Parsed on your phone, with an option to confirm each one before it is saved.",
+        note: "Only if you turn it on, and on Android only. Parsed on your phone, with an option to review each one before it counts.",
         tag: "Optional, planned",
       },
     ],
@@ -243,7 +248,7 @@ export const faqList = [
   {
     question: "Does Card Co-Pilot read my email or SMS?",
     answer:
-      "Only if you choose to. You can connect Gmail with read-only access so card statements can be decoded to track milestones and expiring points, and you can skip this during setup. Bank transaction SMS can be parsed on your phone, with an option to confirm each one before it is saved.",
+      "Only if you choose to. You can connect Gmail with read-only access so card statements can be decoded to track milestones and expiring points, and you can skip this during setup. Bank transaction SMS can be parsed on your Android phone, with an option to review each one before it counts.",
     tag: "Your data",
   },
   {

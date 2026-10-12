@@ -15,7 +15,7 @@ export default function FinalCtaSection() {
             Be first to know which card to swipe.
           </h2>
           <p className="mt-5 max-w-2xl text-lg text-white/95 md:text-xl">
-            Join the waitlist for launch timing, onboarding windows and product updates.
+            Join the waitlist for launch updates and onboarding instructions.
           </p>
           <div className="mt-8">
             <WaitlistForm variant="hero" buttonLabel="Join the Waitlist" tone="brand" />

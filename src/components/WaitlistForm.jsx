@@ -39,7 +39,7 @@ export default function WaitlistForm({
     setError("");
     setIsSuccess(false);
 
-    if (!isValidEmail(email)) {
+    if (!isValidEmail(email.trim())) {
       setError("Enter a valid email address.");
       return;
     }
