@@ -1,12 +1,8 @@
 import { motion, useScroll, useSpring } from "framer-motion";
 import Nav from "./components/Nav";
-import Hero from "./components/Hero";
-import Marquee from "./components/Marquee";
-import SwipeScene from "./components/SwipeScene";
-import Moments from "./components/Moments";
+import Stage from "./components/Stage";
 import SecuritySection from "./components/sections/SecuritySection";
 import FaqSection from "./components/sections/FaqSection";
-import FinalCtaSection from "./components/sections/FinalCtaSection";
 import SiteFooter from "./components/SiteFooter";
 
 export default function App() {
@@ -28,13 +24,9 @@ export default function App() {
       </a>
       <Nav />
       <main id="main">
-        <Hero />
-        <Marquee />
-        <SwipeScene />
-        <Moments />
+        <Stage />
         <SecuritySection />
         <FaqSection />
-        <FinalCtaSection />
       </main>
       <SiteFooter />
     </div>
